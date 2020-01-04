@@ -1,0 +1,26 @@
+name: Validate Packaging
+on: 
+  push:
+    branches-ignore:
+      - master
+env:
+  VERSION: 0.0.13 #unlucky number to catch all edge cases
+  PACKAGE_NAME: hello-world
+jobs:
+  version-package-name:
+    runs-on: ubuntu-16.04
+    name: Package uses version and package name
+    steps:
+      - uses: actions/checkout@v1
+      - name: Package
+        id: package
+        uses: ./  #use the current project relative to root
+        with:
+          version: $VERSION
+          package-name: $PACKAGE_NAME
+      - name: The generated package
+        run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
+      - name: Validate package file provided exists
+        run: ls -l ${{ steps.package.outputs.artifact-path }}
+      - name: Validate name is as we expected
+        run: ls -l $PACKAGE_NAME_$VERSION_amd64.deb
