@@ -22,42 +22,42 @@ package_name_from_control(){
     echo "$package_line" | awk -F': ' '{print $2}'
 }
 
+# replaces / with - so feature/BB-182 = feature-BB-182 for version compatibility
+append_branch_version(){
+    if [[ $branch != $NONE ]]; then
+        echo ".$(echo "$branch" | tr / -)"
+    fi
+}
+
 # uses or makes version based on caascading set of rules based on what is provided
+# if 
 version_guaranteed(){
     
-    if [[ -n $version ]]; then
+    if [[ $version != $NONE ]]; then
         # use version as provided
-        v = $version
-    elif [[ -n $pull_request_number ]]; then
+        v=$version
+    elif [[ $pull_request_number != $NONE ]]; then
         # pr as the major is good for consistency and identity 
         # possibilities:
         # {pr#}
         # {pr#}.{branch}
         # {pr#}.{build#}
         # {pr#}.{branch}.{build#}
-        v = $pull_request_number
-        if [[ -n $branch ]]; then
-            branch_escaped=$($branch| awk -F'/' '{print $1-$2}')
-            v = "$v.$branch"
+        v=$pull_request_number$(append_branch_version)
+        if [[ $build_number != $NONE ]]; then
+            v="$v.$build_number"
         fi
-        if [[ -n $branch ]]; then
-            branch_escaped=$($branch| awk -F'/' '{print $1-$2}')
-            v = "$v.$branch"
-        fi
-        if [[ -n $build_number ]]; then
-            v = "$v.$build_number"
-        fi
-    elif [[ -n $build_number ]]; then
+    elif [[ $build_number != $NONE ]]; then
         # build number is fine as the major and is good for identify (once github provides it)
         # branch provides consistency across builds
-        v = $build_number
-        if [[ -n $branch ]]; then
-            branch_escaped=$($branch| awk -F'/' '{print $1-$2}')
-            v = "$v.$branch"
-        fi
+        # {build#}
+        # {build#}.{branch}
+        v=$build_number$(append_branch_version)
     else
         # nothing provided.  use date
-        v=$(date +%Y%d%m%H%M%S )
+        # {timestamp}
+        # {timestamp}.{branch}
+        v=$(date +%Y%m%d%H%M%S )$(append_branch_version)
     fi
 
     echo $v
@@ -66,40 +66,40 @@ version_guaranteed(){
 
 set -e # fail on error
 
-# the git root is always mapped to the docker's /root 
-cd /github/workspace
-
-source /opt/ros/kinetic/setup.bash
-
-
-
 # the directory where the artifact should be copied so other actions can access
 # see also https://medium.com/@fonseka.live/sharing-data-in-github-actions-a9841a9a6f42
 staging_dir="/github/home"
+workspace="/github/workspace"
+
+# the git root is always mapped to the docker's /root 
+mkdir -p $workspace
+mkdir -p $staging_dir
+cd $workspace
+
+source /opt/ros/kinetic/setup.bash
 
 if [[ ! -d "$DEBIAN_DIR" ]]; then
     echo "$DEBIAN_DIR must exist with rules (executable), "
     exit 1
 fi
 
-rm -rf build
-rm -f $DEBIAN_DIR/changelog
-
-# clean the debian and build directories and will validate necessary files
-fakeroot debian/rules clean #ensures no residue
-
+package_name=$(package_name_from_control)
 #TODO: get release notes from github and add them to the changelog
-control_version_line="$(package_name_from_control) ($(version_guaranteed)) unstable; urgency=medium"
-echo $control_version_line
-exit 1
+control_version_line="$package_name ($(version_guaranteed)) unstable; urgency=medium"
 echo $control_version_line > $DEBIAN_DIR/changelog
 
 
+# clean the debian and build directories and will validate necessary files
+fakeroot debian/rules clean #ensures no residue
 fakeroot debian/rules binary #performs the package
 
-artifact_filename=$(ls .. | grep $package_name) #the package is generated in base directory
+echo "Made it. Whew!!!"
+artifact_filename=$(ls .. | grep .deb | tail -1) #the package is generated in base directory
+echo "Found $artifact_filename"
 artifact_path="$staging_dir/$artifact_filename"
-mv "../$artifact_filename" $staging_dir
+echo "at $artifact_path"
+
+mv ../$artifact_filename $staging_dir
 
 #show the details of the file FYI and to validate existence
 ls -lh $artifact_path
