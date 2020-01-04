@@ -93,13 +93,10 @@ echo $control_version_line > $DEBIAN_DIR/changelog
 fakeroot debian/rules clean #ensures no residue
 fakeroot debian/rules binary #performs the package
 
-echo "Made it. Whew!!!"
 artifact_filename=$(ls .. | grep .deb | tail -1) #the package is generated in base directory
-echo "Found $artifact_filename"
 artifact_path="$staging_dir/$artifact_filename"
-echo "at $artifact_path"
 
-mv ../$artifact_filename $staging_dir
+mv ../$artifact_filename $artifact_path
 
 #show the details of the file FYI and to validate existence
 ls -lh $artifact_path
