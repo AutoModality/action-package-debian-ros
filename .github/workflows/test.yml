@@ -18,15 +18,7 @@ jobs:
       - name: The generated package
         run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
       - name: Validate package file provided exists
-        run: |
-          ls -l /github
-          ls -l /github/home
-          ls -l /github/workspace
-          ls -l ${{ steps.package.outputs.artifact-path }}
-      - name: Validate package can be installed
-        run: apt install -y ${{ steps.package.outputs.artifact-path }}
-      - name: Validate installed package can be found
-        run: ls -l /usr/local/bin/$PACKAGE_NAME
+        uses: ./.github/actions/test@local
   version:
     runs-on: ubuntu-16.04
     name: Package uses version provided
@@ -36,10 +28,9 @@ jobs:
         id: package
         uses: ./  #use the current project relative to root
         with:
-          version: $VERSION
+          version: ${{ VERSION }}
       - name: The generated package
         run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
       - name: Validate package file provided exists
-        run: ls -l ${{ steps.package.outputs.artifact-path }}
-      - name: Validate name is as we expected
-        run: ls -l $PACKAGE_NAME_$VERSION_amd64.deb
+        uses: ./.github/actions/test@local
+      
