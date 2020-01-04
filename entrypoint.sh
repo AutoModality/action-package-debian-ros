@@ -9,9 +9,9 @@
 NONE="None"
 DEBIAN_DIR=debian
 version=${1:-$NONE} # the version of the generated package
-build_number=${2:-$NONE} 
-pull_request_number=${3:-$NONE} 
-branch=${4:-$NONE} 
+build_number=${2:-$NONE}
+pull_request_number=${3:-$NONE}
+branch=${4:-$NONE}
 
 
 
@@ -30,14 +30,14 @@ append_branch_version(){
 }
 
 # uses or makes version based on caascading set of rules based on what is provided
-# if 
+# if
 version_guaranteed(){
     
     if [[ $version != $NONE ]]; then
         # use version as provided
         v=$version
-    elif [[ $pull_request_number != $NONE ]]; then
-        # pr as the major is good for consistency and identity 
+        elif [[ $pull_request_number != $NONE ]]; then
+        # pr as the major is good for consistency and identity
         # possibilities:
         # {pr#}
         # {pr#}.{branch}
@@ -47,7 +47,7 @@ version_guaranteed(){
         if [[ $build_number != $NONE ]]; then
             v="$v.$build_number"
         fi
-    elif [[ $build_number != $NONE ]]; then
+        elif [[ $build_number != $NONE ]]; then
         # build number is fine as the major and is good for identify (once github provides it)
         # branch provides consistency across builds
         # {build#}
@@ -59,7 +59,7 @@ version_guaranteed(){
         # {timestamp}.{branch}
         v=$(date +%Y%m%d%H%M%S )$(append_branch_version)
     fi
-
+    
     echo $v
 }
 # ========= MAIN
@@ -71,7 +71,7 @@ set -e # fail on error
 staging_dir="/github/home"
 workspace="/github/workspace"
 
-# the git root is always mapped to the docker's /root 
+# the git root is always mapped to the docker's /root
 mkdir -p $workspace
 mkdir -p $staging_dir
 cd $workspace

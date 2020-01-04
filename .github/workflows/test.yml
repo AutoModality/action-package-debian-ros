@@ -5,11 +5,28 @@ on:
       - master
 env:
   VERSION: 0.0.13 #unlucky number to catch all edge cases
-  PACKAGE_NAME: hello-world
+  PACKAGE_NAME: debian-package-test-action
 jobs:
-  version-package-name:
+  default-version:
     runs-on: ubuntu-16.04
-    name: Package uses version and package name
+    name: Default version uses timestamps
+    steps:
+      - uses: actions/checkout@v1
+      - name: Package
+        id: package
+        uses: ./  #use the current project relative to root
+      - name: The generated package
+        run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
+      - name: Validate package file provided exists
+        run: ls -l ${{ steps.package.outputs.artifact-path }}
+      - name: Validate package can be installed
+        run: apt install -y ${{ steps.package.outputs.artifact-path }}
+      - name: Validate installed package can be found
+        run: ls -l /usr/local/bin/$PACKAGE_NAME
+jobs:
+  version:
+    runs-on: ubuntu-16.04
+    name: Package uses version provided
     steps:
       - uses: actions/checkout@v1
       - name: Package
@@ -17,7 +34,6 @@ jobs:
         uses: ./  #use the current project relative to root
         with:
           version: $VERSION
-          package-name: $PACKAGE_NAME
       - name: The generated package
         run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
       - name: Validate package file provided exists
