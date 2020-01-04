@@ -19,6 +19,8 @@ jobs:
         run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
       - name: Validate package file provided exists
         uses: ./.github/actions/test@local
+        with:
+          package-file: ${{ steps.package.outputs.artifact-path }}      
   version:
     runs-on: ubuntu-16.04
     name: Package uses version provided
@@ -33,4 +35,5 @@ jobs:
         run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
       - name: Validate package file provided exists
         uses: ./.github/actions/test@local
-      
+        with:
+          package-file: ${{ steps.package.outputs.artifact-path }}
