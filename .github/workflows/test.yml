@@ -76,7 +76,7 @@ jobs:
         with:
           branch: XX-13
       - name: Confirm package name uses version
-        if: contains(steps.package.outputs.artifact-path, '-XX-13_amd64.deb') != true
+        if: contains(steps.package.outputs.artifact-path, '.XX-13_amd64.deb') != true
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
           exit 1
@@ -114,5 +114,26 @@ jobs:
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
           exit 1
+  release:
+    runs-on: ubuntu-16.04
+    name: Release if all tests pass on master branch
+    needs:
+      - branch-with-path
+      - branch
+      - pull-request-number
+      - build-number
+      - pr-branch-build
+      - version
+      - default-version
+    steps:
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v2
+        with:
+          semantic_version: 15.14.0
+          extra_plugins: |
+            @semantic-release/git
+            @semantic-release/changelog@3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   
