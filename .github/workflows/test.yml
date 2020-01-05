@@ -123,6 +123,7 @@ jobs:
       - version
       - default-version
     steps:
+      - uses: actions/checkout@v1
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v2
         with:
