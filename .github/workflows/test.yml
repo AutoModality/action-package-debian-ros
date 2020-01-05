@@ -76,7 +76,7 @@ jobs:
         with:
           branch: XX-13
       - name: Confirm package name uses version
-        if: contains(steps.package.outputs.artifact-path, '-XX-13_amd64.deb'') != true
+        if: contains(steps.package.outputs.artifact-path, '-XX-13_amd64.deb') != true
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
           exit 1
