@@ -30,10 +30,11 @@ jobs:
           version: 0.0.13
       - name: The generated package
         run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
-      - name: Package name uses version
-        if: steps.version.env.version != debian-package-test-action_0.0.13_amd64.deb
+      - name: Confirm package name uses version
+        if: steps.version.env.version != "debian-package-test-action_0.0.13_amd64.deb"
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 0.0.13 "
+          exit 1
       - name: Validate package file provided exists
         uses: ./.github/actions/test@local
         with:
