@@ -1,8 +1,5 @@
 name: Validate Packaging
-on: 
-  push:
-    branches-ignore:
-      - master
+on: push
 jobs:
   default-version:
     runs-on: ubuntu-16.04
