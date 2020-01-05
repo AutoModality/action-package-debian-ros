@@ -5,7 +5,7 @@ file=$1
 
 set -e # fail on error
 
-ls - l $file
+ls -l $file
 
 apt -y install $file
 
