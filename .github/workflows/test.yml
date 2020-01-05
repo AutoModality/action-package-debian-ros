@@ -6,7 +6,7 @@ on:
 jobs:
   default-version:
     runs-on: ubuntu-16.04
-    name: Default version uses timestamps
+    name: Default version uses timestamps and package can be installed
     steps:
       - uses: actions/checkout@v1
       - name: Package
@@ -46,7 +46,7 @@ jobs:
         with:
           pull-request-number: 13
       - name: Confirm package name uses version
-        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_13_amd64.deb) != true
+        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_13_amd64.deb') != true
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 0.0.13 "
           exit 1
@@ -61,7 +61,7 @@ jobs:
         with:
           build-number: 13
       - name: Confirm package name uses version
-        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_13_amd64.deb) != true
+        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_13_amd64.deb') != true
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 0.0.13 "
           exit 1
@@ -93,7 +93,7 @@ jobs:
           branch: XX-13
           build-number: 8
       - name: Confirm package name uses version
-        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_7.XX-13.8_amd64.deb'') != true
+        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_7.XX-13.8_amd64.deb') != true
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
           exit 1
@@ -110,7 +110,7 @@ jobs:
           branch: feature/XX-13
           build-number: 8
       - name: Confirm package name uses version
-        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_7.feature-XX-13.8_amd64.deb'') != true
+        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_7.feature-XX-13.8_amd64.deb') != true
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
           exit 1
