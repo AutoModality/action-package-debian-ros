@@ -31,13 +31,88 @@ jobs:
       - name: The generated package
         run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
       - name: Confirm package name uses version
-        if: contains(steps.package.outputs.artifact-path, '0.0.13') != true
+        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_0.0.13_amd64.deb') != true
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 0.0.13 "
           exit 1
-      - name: Validate package file provided exists
-        uses: ./.github/actions/test@local
+  pull-request-number:
+    runs-on: ubuntu-16.04
+    name: Pull request number alone is used
+    steps:
+      - uses: actions/checkout@v1
+      - name: Package
+        id: package
+        uses: ./  #use the current project relative to root
         with:
-          package-file: ${{ steps.package.outputs.artifact-path }}
+          pull-request-number: 13
+      - name: Confirm package name uses version
+        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_13_amd64.deb) != true
+        run: |
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 0.0.13 "
+          exit 1
+  build-number:
+    runs-on: ubuntu-16.04
+    name: Build number only is used
+    steps:
+      - uses: actions/checkout@v1
+      - name: Package
+        id: package
+        uses: ./  #use the current project relative to root
+        with:
+          build-number: 13
+      - name: Confirm package name uses version
+        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_13_amd64.deb) != true
+        run: |
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 0.0.13 "
+          exit 1
+  branch:
+    runs-on: ubuntu-16.04
+    name: Branch only uses timestamp with branch
+    steps:
+      - uses: actions/checkout@v1
+      - name: Package
+        id: package
+        uses: ./  #use the current project relative to root
+        with:
+          branch: XX-13
+      - name: Confirm package name uses version
+        if: contains(steps.package.outputs.artifact-path, '-XX-13_amd64.deb'') != true
+        run: |
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
+          exit 1
+  pr-branch-build:
+    runs-on: ubuntu-16.04
+    name: Pull request, branch and build number all used
+    steps:
+      - uses: actions/checkout@v1
+      - name: Package
+        id: package
+        uses: ./  #use the current project relative to root
+        with:
+          pull-request-number: 7
+          branch: XX-13
+          build-number: 8
+      - name: Confirm package name uses version
+        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_7.XX-13.8_amd64.deb'') != true
+        run: |
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
+          exit 1
+  branch-with-path:
+    runs-on: ubuntu-16.04
+    name: Path branch like feature/XX-13 is escaped
+    steps:
+      - uses: actions/checkout@v1
+      - name: Package
+        id: package
+        uses: ./  #use the current project relative to root
+        with:
+          pull-request-number: 7
+          branch: feature/XX-13
+          build-number: 8
+      - name: Confirm package name uses version
+        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_7.feature-XX-13.8_amd64.deb'') != true
+        run: |
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
+          exit 1
 
   
