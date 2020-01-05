@@ -4,7 +4,6 @@ on:
     branches-ignore:
       - master
 env:
-  VERSION: 0.0.13 #unlucky number to catch all edge cases
   PACKAGE_NAME: debian-package-test-action
 jobs:
   default-version:
@@ -24,13 +23,15 @@ jobs:
   version:
     runs-on: ubuntu-16.04
     name: Package uses version provided
+    env:
+      VERSION: 0.0.13 #unlucky number to catch all edge cases
     steps:
       - uses: actions/checkout@v1
       - name: Package
         id: package
         uses: ./  #use the current project relative to root
         with:
-          version: ${{ workflow.VERSION }} 
+          version: ${{ VERSION }} 
       - name: The generated package
         run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
       - name: Validate package file provided exists
