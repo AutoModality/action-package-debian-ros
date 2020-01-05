@@ -1,0 +1,33 @@
+# see package.yml for usage 
+name: 'Package on Ros Kinetic Perception'
+description: 'Debian packaging on ros:kinetic-perception'
+inputs:
+  # if no inputs are given, the timestamp is used as the only version number
+  version:  
+    description: 'The version of the package to be generated. Other inputs ignored if provided.'
+    required: false
+    default: 'None'
+  branch: 
+    description: 'Optional: The branch name used in the minor version. Paths will be escaped.'
+    required: false
+    default: 'None'
+  build-number: 
+    description: 'Optional: Corresponds to the build number that invoked this. Patch version. '
+    required: false
+    default: 'None'
+  pull-request-number: 
+    description: 'Optional: Corresponds to the pull request that invoked this. Major version.'
+    required: false
+    default: 'None'
+outputs:
+  artifact-path:
+    description: 'The file path where the artifact can be found'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args: # see entrypoint.sh for the recipient of these - order matters
+    - ${{ inputs.version }}
+    - ${{ inputs.build-number }}
+    - ${{ inputs.pull-request-number }}
+    - ${{ inputs.branch }}

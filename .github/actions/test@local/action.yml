@@ -1,0 +1,16 @@
+# see package.yml for usage 
+name: 'Validates Packaging Works'
+description: 'Tests for action-package-debian-ros'
+inputs:
+  package-file:  
+    description: 'The package file'
+    required: true
+outputs:
+  passed:
+    description: 'True indicates all tests passed. '
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args: # see entrypoint.sh for the recipient of these - order matters
+    - ${{ inputs.package-file }}
