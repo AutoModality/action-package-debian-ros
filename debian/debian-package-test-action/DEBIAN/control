@@ -1,5 +1,5 @@
 Package: debian-package-test-action
-Version: 20200104171401
+Version: 20200105014549
 Architecture: amd64
 Maintainer: DevOps <dev@automodality.com>
 Installed-Size: 7
