@@ -3,8 +3,6 @@ on:
   push:
     branches-ignore:
       - master
-env:
-  PACKAGE_NAME: debian-package-test-action
 jobs:
   default-version:
     runs-on: ubuntu-16.04
@@ -23,17 +21,19 @@ jobs:
   version:
     runs-on: ubuntu-16.04
     name: Package uses version provided
-    env:
-      VERSION: 0.0.13 #unlucky number to catch all edge cases
     steps:
       - uses: actions/checkout@v1
       - name: Package
         id: package
         uses: ./  #use the current project relative to root
         with:
-          version: ${{ steps.version.env.version }}
+          version: 0.0.13
       - name: The generated package
         run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
+      - name: Package name uses version
+        if: steps.version.env.version != debian-package-test-action_0.0.13_amd64.deb
+        run: |
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 0.0.13 "
       - name: Validate package file provided exists
         uses: ./.github/actions/test@local
         with:
