@@ -30,7 +30,7 @@ jobs:
         id: package
         uses: ./  #use the current project relative to root
         with:
-          version: ${{ env.version }} 
+          version: ${{ workflow.VERSION }} 
       - name: The generated package
         run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
       - name: Validate package file provided exists
