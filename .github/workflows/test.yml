@@ -11,9 +11,7 @@ jobs:
           login-server: docker.cloudsmith.io 
           username: cloudsmith-read@automodality.com
           password: ${{ secrets.CLOUDSMITH_READ_DEV_ENTITLEMENT }}
-      - name: Pull Docker Image
-        # must match the version in Dockerfile
-        run: docker pull docker.cloudsmith.io/automodality/dev/amros-base:2..17
+      - run: docker pull docker.cloudsmith.io/automodality/dev/amros-base:2..17
       - name: Package
         id: package
         uses: ./  #use the current project relative to root
@@ -33,6 +31,7 @@ jobs:
           login-server: docker.cloudsmith.io 
           username: cloudsmith-read@automodality.com
           password: ${{ secrets.CLOUDSMITH_READ_DEV_ENTITLEMENT }}
+      - run: docker pull docker.cloudsmith.io/automodality/dev/amros-base:2..17
       - name: Package
         id: package
         uses: ./  #use the current project relative to root
@@ -50,6 +49,12 @@ jobs:
     name: Pull request number alone is used
     steps:
       - uses: actions/checkout@v1
+      - uses: azure/docker-login@v1
+        with:
+          login-server: docker.cloudsmith.io 
+          username: cloudsmith-read@automodality.com
+          password: ${{ secrets.CLOUDSMITH_READ_DEV_ENTITLEMENT }}
+      - run: docker pull docker.cloudsmith.io/automodality/dev/amros-base:2..17
       - name: Package
         id: package
         uses: ./  #use the current project relative to root
@@ -65,6 +70,12 @@ jobs:
     name: Build number only is used
     steps:
       - uses: actions/checkout@v1
+      - uses: azure/docker-login@v1
+        with:
+          login-server: docker.cloudsmith.io 
+          username: cloudsmith-read@automodality.com
+          password: ${{ secrets.CLOUDSMITH_READ_DEV_ENTITLEMENT }}
+      - run: docker pull docker.cloudsmith.io/automodality/dev/amros-base:2..17
       - name: Package
         id: package
         uses: ./  #use the current project relative to root
@@ -80,6 +91,12 @@ jobs:
     name: Branch only uses timestamp with branch
     steps:
       - uses: actions/checkout@v1
+      - uses: azure/docker-login@v1
+        with:
+          login-server: docker.cloudsmith.io 
+          username: cloudsmith-read@automodality.com
+          password: ${{ secrets.CLOUDSMITH_READ_DEV_ENTITLEMENT }}
+      - run: docker pull docker.cloudsmith.io/automodality/dev/amros-base:2..17
       - name: Package
         id: package
         uses: ./  #use the current project relative to root
@@ -95,6 +112,12 @@ jobs:
     name: Pull request, branch and build number all used
     steps:
       - uses: actions/checkout@v1
+      - uses: azure/docker-login@v1
+        with:
+          login-server: docker.cloudsmith.io 
+          username: cloudsmith-read@automodality.com
+          password: ${{ secrets.CLOUDSMITH_READ_DEV_ENTITLEMENT }}
+      - run: docker pull docker.cloudsmith.io/automodality/dev/amros-base:2..17
       - name: Package
         id: package
         uses: ./  #use the current project relative to root
@@ -112,6 +135,12 @@ jobs:
     name: Path branch like feature/XX-13 is escaped
     steps:
       - uses: actions/checkout@v1
+      - uses: azure/docker-login@v1
+        with:
+          login-server: docker.cloudsmith.io 
+          username: cloudsmith-read@automodality.com
+          password: ${{ secrets.CLOUDSMITH_READ_DEV_ENTITLEMENT }}
+      - run: docker pull docker.cloudsmith.io/automodality/dev/amros-base:2..17
       - name: Package
         id: package
         uses: ./  #use the current project relative to root
