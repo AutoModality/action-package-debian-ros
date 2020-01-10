@@ -11,6 +11,9 @@ jobs:
           login-server: docker.cloudsmith.io 
           username: cloudsmith-read@automodality.com
           password: ${{ secrets.CLOUDSMITH_READ_DEV_ENTITLEMENT }}
+      - name: Pull Docker Image
+        # must match the version in Dockerfile
+        run: docker pull docker.cloudsmith.io/automodality/dev/amros-base:2..17
       - name: Package
         id: package
         uses: ./  #use the current project relative to root

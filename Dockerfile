@@ -1,3 +1,4 @@
+# this must match the pull in test.yml
 FROM docker.cloudsmith.io/automodality/dev/amros-base:2..17
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
