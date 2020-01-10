@@ -89,6 +89,9 @@ control_version_line="$package_name ($(version_guaranteed)) unstable; urgency=me
 echo $control_version_line > $DEBIAN_DIR/changelog
 
 
+# will download control files
+mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
+
 # clean the debian and build directories and will validate necessary files
 fakeroot debian/rules clean #ensures no residue
 fakeroot debian/rules binary #performs the package
