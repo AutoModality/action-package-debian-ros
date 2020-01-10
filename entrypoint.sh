@@ -88,6 +88,7 @@ package_name=$(package_name_from_control)
 control_version_line="$package_name ($(version_guaranteed)) unstable; urgency=medium"
 echo $control_version_line > $DEBIAN_DIR/changelog
 
+apt-get -y update
 
 # will download control files
 mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
