@@ -6,6 +6,11 @@ jobs:
     name: Default version uses timestamps and package can be installed
     steps:
       - uses: actions/checkout@v1
+      - uses: azure/docker-login@v1
+        with:
+          login-server: docker.cloudsmith.io 
+          username: cloudsmith-read@automodality.com
+          password: ${{ secrets.CLOUDSMITH_READ_DEV_ENTITLEMENT }}
       - name: Package
         id: package
         uses: ./  #use the current project relative to root
