@@ -6,13 +6,14 @@
 # the version generated is only for development builds currently
 
 #see action.yml for inputs
-NONE="None"
+NONE="None" #because blank doesn't work for bash
+
 DEBIAN_DIR=debian
 version=${1:-$NONE} # the version of the generated package
 build_number=${2:-$NONE}
 pull_request_number=${3:-$NONE}
 branch=${4:-$NONE}
-
+cloudsmith_read_dev_entitlement=${5:-$NONE}
 
 
 # extract the package name from the control file
@@ -29,6 +30,20 @@ append_branch_version(){
     fi
 }
 
+# cloudsmith package repository needs to be included for dependency downloads
+# it is private and requires access key provided as a parameter
+authorize_dev_package_repo(){
+
+    if [[ $cloudsmith_read_dev_entitlement != $NONE ]]; then
+    curl -u "token:$cloudsmith_read_dev_entitlement" -1sLf \
+    'https://dl.cloudsmith.io/basic/automodality/dev/cfg/setup/bash.deb.sh' \
+    | sudo bash
+    else
+        echo "No access to Cloudsmith Dev Repository.  Entitlement not provided."
+    fi
+  # new repository comes new package directory
+  apt-get -y update
+}
 # uses or makes version based on caascading set of rules based on what is provided
 # if
 version_guaranteed(){
@@ -88,6 +103,7 @@ package_name=$(package_name_from_control)
 control_version_line="$package_name ($(version_guaranteed)) unstable; urgency=medium"
 echo $control_version_line > $DEBIAN_DIR/changelog
 
+authorize_dev_package_repo
 
 # clean the debian and build directories and will validate necessary files
 fakeroot debian/rules clean #ensures no residue

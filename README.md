@@ -14,6 +14,7 @@ ROS project packaging in Debian format ready for installation.
 * Version can be provided directly
 * Version can be generated automatically using timestamp
 * Version can be built from a combination of pull-request-number, build-number, branch
+* Can download dependencies from the AM private package repository
 
 ## Usage
 
@@ -51,14 +52,12 @@ Tests are run by the [Actions](https://github.com/AutoModality/action-package-de
 Run locally in a docker container:
 
 ```
-docker run -v ~/github/action-package-debian-ros/:/github/workspace -it ros:kinetic-perception-xenial
+docker run -v `pwd`/:/github/workspace -w /github/workspace -it ros:kinetic-perception-xenial
 ```
 
 Then ...
 
 ```
-cd /github/workspace
-
 # generates version using timestamp
 #/github/home/debian-package-test-action_20200105014549_amd64.deb
 ./entrypoint.sh  
