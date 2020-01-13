@@ -51,7 +51,7 @@ Tests are run by the [Actions](https://github.com/AutoModality/action-package-de
 Run locally in a docker container:
 
 ```
-docker run -v ~/github/action-package-debian-ros/:/github/workspace -it ros:kinetic-perception-xenial
+docker run -v `pwd`/:/github/workspace -w /github/workspace -it ros:kinetic-perception-xenial
 ```
 
 Then ...
