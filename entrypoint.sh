@@ -43,6 +43,7 @@ authorize_dev_package_repo(){
     fi
   # new repository comes new package directory
   apt-get -y update
+  mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
 }
 # uses or makes version based on caascading set of rules based on what is provided
 # if
