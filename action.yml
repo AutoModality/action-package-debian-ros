@@ -23,6 +23,10 @@ inputs:
     description: 'Optional. If provided, will have access to the Cloudsmith dev repository for dependency download.'
     required: false
     default: 'None'
+  release-repo-entitlement: 
+    description: 'Optional. If provided, will have access to the Cloudsmith release repository for dependency download.'
+    required: false
+    default: 'None'
 outputs:
   artifact-path:
     description: 'The file path where the artifact can be found'
@@ -36,3 +40,4 @@ runs:
     - ${{ inputs.pull-request-number }}
     - ${{ inputs.branch }}
     - ${{ inputs.dev-repo-entitlement }}
+    - ${{ inputs.release-repo-entitlement }}
