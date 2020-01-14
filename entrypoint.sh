@@ -36,24 +36,23 @@ append_branch_version(){
 authorize_dev_package_repo(){
 
     if [[ $cloudsmith_read_dev_entitlement != $NONE ]]; then
-    curl -u "token:$cloudsmith_read_dev_entitlement" -1sLf \
-    'https://dl.cloudsmith.io/basic/automodality/dev/cfg/setup/bash.deb.sh' \
-    | sudo bash
+        curl -u "token:$cloudsmith_read_dev_entitlement" -1sLf \
+        'https://dl.cloudsmith.io/basic/automodality/dev/cfg/setup/bash.deb.sh' \
+        | sudo bash
     else
         echo "No access to Cloudsmith Dev Repository.  Entitlement not provided."
     fi
   # new repository comes new package directory
   apt-get -y update
-  mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
 }
 
 # release repository is available to all 
 authorize_release_package_repo(){
 
     if [[ $cloudsmith_read_release_entitlement != $NONE ]]; then
-    curl -u "token:$cloudsmith_read_release_entitlement" -1sLf \
-    'https://dl.cloudsmith.io/basic/automodality/release/cfg/setup/bash.deb.sh' \
-    | sudo bash
+        curl -u "token:$cloudsmith_read_release_entitlement" -1sLf \
+        'https://dl.cloudsmith.io/basic/automodality/release/cfg/setup/bash.deb.sh' \
+        | sudo bash
     else
         echo "No access to Cloudsmith Release Repository.  Entitlement not provided."
     fi
@@ -125,6 +124,10 @@ authorize_release_package_repo
 
 # clean the debian and build directories and will validate necessary files
 debian/rules clean #ensures no residue
+
+#gets dependencies and packages them for 
+mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
+
 debian/rules binary #performs the package
 
 artifact_filename=$(ls .. | grep .deb | tail -1) #the package is generated in base directory
