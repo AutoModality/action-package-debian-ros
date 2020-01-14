@@ -41,10 +41,7 @@ RUN echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 RUN apt-get -y install devscripts equivs 
 
 RUN mkdir ~/testdata
-RUN ln -s ~/catkin_ws/src/visbox/packages/startup/launch/ ~/launch
-RUN ln -s ~/catkin_ws/src/visbox/mission/ ~/mission
-RUN ln -s ~/catkin_ws/src/visbox/viz/ ~/viz
-RUN ln -s ~/catkin_ws/src/visbox/tools/scripts/* ~/scripts
+
 
 # cloudsmith uses http transport so this reduces an error
 RUN apt-get -y install apt-transport-https

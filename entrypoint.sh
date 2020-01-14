@@ -14,6 +14,7 @@ build_number=${2:-$NONE}
 pull_request_number=${3:-$NONE}
 branch=${4:-$NONE}
 cloudsmith_read_dev_entitlement=${5:-$NONE}
+cloudsmith_read_release_entitlement=${6:-$NONE}
 
 
 # extract the package name from the control file
@@ -43,7 +44,23 @@ authorize_dev_package_repo(){
     fi
   # new repository comes new package directory
   apt-get -y update
+  mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
 }
+
+# release repository is available to all 
+authorize_release_package_repo(){
+
+    if [[ $cloudsmith_read_release_entitlement != $NONE ]]; then
+    curl -u "token:$cloudsmith_read_release_entitlement" -1sLf \
+    'https://dl.cloudsmith.io/basic/automodality/release/cfg/setup/bash.deb.sh' \
+    | sudo bash
+    else
+        echo "No access to Cloudsmith Release Repository.  Entitlement not provided."
+    fi
+  # new repository comes new package directory
+  apt-get -y update
+}
+
 # uses or makes version based on caascading set of rules based on what is provided
 # if
 version_guaranteed(){
@@ -104,10 +121,11 @@ control_version_line="$package_name ($(version_guaranteed)) unstable; urgency=me
 echo $control_version_line > $DEBIAN_DIR/changelog
 
 authorize_dev_package_repo
+authorize_release_package_repo
 
 # clean the debian and build directories and will validate necessary files
-fakeroot debian/rules clean #ensures no residue
-fakeroot debian/rules binary #performs the package
+debian/rules clean #ensures no residue
+debian/rules binary #performs the package
 
 artifact_filename=$(ls .. | grep .deb | tail -1) #the package is generated in base directory
 artifact_path="$staging_dir/$artifact_filename"
