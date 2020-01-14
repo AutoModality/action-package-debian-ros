@@ -32,6 +32,7 @@ jobs:
         uses: AutoModality/action-package-debian-ros@v1
         with:
           version: 1.3.0
+          release-repo-entitlement: ${{ secrets.CLOUDSMITH_READ_RELEASE_ENTITLEMENT }}
       - name: The generated package
         run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
 ```
