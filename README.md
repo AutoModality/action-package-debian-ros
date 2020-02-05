@@ -84,7 +84,7 @@ docker run --entrypoint=/bin/bash -v `pwd`/:/github/workspace -w /github/workspa
 **Run the Build Script** in the container.
 
 ```
-/entrypoint.sh NONE NONE NONE NONE $CLOUDSMITH_READ_DEV_ENTITLEMENT $CLOUDSMITH_READ_RELEASE_ENTITLEMENT
+/entrypoint.sh None None None None $CLOUDSMITH_READ_DEV_ENTITLEMENT $CLOUDSMITH_READ_RELEASE_ENTITLEMENT
 ```
 
 
