@@ -50,31 +50,12 @@ Tests are run by the [Actions](https://github.com/AutoModality/action-package-de
 
 ## Development
 
-Run locally in a docker container:
+You will need to build packages in your local development environment.
+
+**Build the Docker Image** so you can run a container locally.
 
 ```
-docker run -v `pwd`/:/github/workspace -w /github/workspace -it ros:kinetic-perception-xenial
+docker build -t amros-build .
 ```
 
-Then ...
 
-```
-# generates version using timestamp
-#/github/home/debian-package-test-action_20200105014549_amd64.deb
-./entrypoint.sh  
-
-# generates using given version
-# /github/home/debian-package-test-action_3.2.8_amd64.deb
-./entrypoint.sh 3.2.8 
-```
-
-## Contribute 
-
-1. Create the issue explaining the feature or bug
-1. Create a branch with the issue id in the branch name
-1. Make code changes
-1. Add an Action Job to verify your changes (when appropriate)
-1. Commit significant notes starting with `fix:` or `feat:`
-    1. BREAKING CHANGES: in such cases, but discouraged 
-    1. Will be included in release notes
-1. Make a pull request
