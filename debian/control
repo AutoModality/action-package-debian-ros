@@ -1,0 +1,13 @@
+Source: debian-package-test-action
+Section: unknown
+Priority: extra
+Maintainer: DevOps <dev@automodality.com>
+Build-Depends: cmake, debhelper (>=9)
+Standards-Version: 3.9.6
+Homepage: https://github.com/AutoModality/action-package-debian-ros
+
+Package: debian-package-test-action
+Architecture: any
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Test to validate Github Action ROS debian packaging.
