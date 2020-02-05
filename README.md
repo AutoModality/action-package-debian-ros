@@ -60,12 +60,20 @@ docker build -t amros-build .
 
 **Provide access to package repository** by exporting Cloudsmith entitlements to environment variables.
 
+* [Release repository entitlements](https://cloudsmith.io/elevate/?next=/~automodality/repos/release/entitlements/)
+* [Dev repository entitlements](https://cloudsmith.io/elevate/?next=/~automodality/repos/dev/entitlements/)
 
 ```
 export CLOUDSMITH_READ_DEV_ENTITLEMENT={your entitlement}
 export CLOUDSMITH_READ_RELEASE_ENTITLEMENT={your entitlement}
 ```
 
+or using the [cloudsmith cli](https://github.com/cloudsmith-io/cloudsmith-cli)
+
+```
+cloudsmith entitlements list automodality/dev --show-tokens
+cloudsmith entitlements list automodality/release --show-tokens
+```
 **Run the Docker Container** in the root of the project you wish to build (e.g. ~/am/github/visbox).
 
 
@@ -80,3 +88,36 @@ docker run --entrypoint=/bin/bash -v `pwd`/:/github/workspace -w /github/workspa
 ```
 
 
+## Parameters
+
+From [action.yml](action.yml).
+
+```
+  version:  
+    description: 'The version of the package to be generated. Other inputs ignored if provided.'
+    required: false
+    default: 'None'
+  branch: 
+    description: 'Optional: The branch name used in the minor version. Paths will be escaped.'
+    required: false
+    default: 'None'
+  build-number: 
+    description: 'Optional: Corresponds to the build number that invoked this. Patch version. '
+    required: false
+    default: 'None'
+  pull-request-number: 
+    description: 'Optional: Corresponds to the pull request that invoked this. Major version.'
+    required: false
+    default: 'None'
+  dev-repo-entitlement: 
+    description: 'Optional. If provided, will have access to the Cloudsmith dev repository for dependency download.'
+    required: false
+    default: 'None'
+  release-repo-entitlement: 
+    description: 'Optional. If provided, will have access to the Cloudsmith release repository for dependency download.'
+    required: false
+    default: 'None'
+outputs:
+  artifact-path:
+    description: 'The file path where the artifact can be found'
+```
