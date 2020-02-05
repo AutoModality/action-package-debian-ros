@@ -138,5 +138,10 @@ mv ../$artifact_filename $artifact_path
 #show the details of the file FYI and to validate existence
 ls -lh $artifact_path
 
+# cleanup for the next user - BB-789 ARM builds fails since root owns generated directories.
+rm -rf debian
+rm -rf catkin_ws
+rm -rf 
+
 echo ::set-output name=artifact-path::$artifact_path  #reference available to other actions
 
