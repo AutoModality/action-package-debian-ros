@@ -58,4 +58,25 @@ You will need to build packages in your local development environment.
 docker build -t amros-build .
 ```
 
+**Provide access to package repository** by exporting Cloudsmith entitlements to environment variables.
+
+
+```
+export CLOUDSMITH_READ_DEV_ENTITLEMENT={your entitlement}
+export CLOUDSMITH_READ_RELEASE_ENTITLEMENT={your entitlement}
+```
+
+**Run the Docker Container** in the root of the project you wish to build (e.g. ~/am/github/visbox).
+
+
+```
+docker run --entrypoint=/bin/bash -v `pwd`/:/github/workspace -w /github/workspace --env CLOUDSMITH_READ_DEV_ENTITLEMENT=$CLOUDSMITH_READ_DEV_ENTITLEMENT --env CLOUDSMITH_READ_RELEASE_ENTITLEMENT=$CLOUDSMITH_READ_RELEASE_ENTITLEMENT -it amros-build
+```
+
+**Run the Build Script** in the container.
+
+```
+/entrypoint.sh NONE NONE NONE NONE $CLOUDSMITH_READ_DEV_ENTITLEMENT $CLOUDSMITH_READ_RELEASE_ENTITLEMENT
+```
+
 
