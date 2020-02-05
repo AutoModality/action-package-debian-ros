@@ -50,31 +50,74 @@ Tests are run by the [Actions](https://github.com/AutoModality/action-package-de
 
 ## Development
 
-Run locally in a docker container:
+You will need to build packages in your local development environment.
+
+**Build the Docker Image** so you can run a container locally.
 
 ```
-docker run -v `pwd`/:/github/workspace -w /github/workspace -it ros:kinetic-perception-xenial
+docker build -t amros-build .
 ```
 
-Then ...
+**Provide access to package repository** by exporting Cloudsmith entitlements to environment variables.
+
+* [Release repository entitlements](https://cloudsmith.io/elevate/?next=/~automodality/repos/release/entitlements/)
+* [Dev repository entitlements](https://cloudsmith.io/elevate/?next=/~automodality/repos/dev/entitlements/)
 
 ```
-# generates version using timestamp
-#/github/home/debian-package-test-action_20200105014549_amd64.deb
-./entrypoint.sh  
-
-# generates using given version
-# /github/home/debian-package-test-action_3.2.8_amd64.deb
-./entrypoint.sh 3.2.8 
+export CLOUDSMITH_READ_DEV_ENTITLEMENT={your entitlement}
+export CLOUDSMITH_READ_RELEASE_ENTITLEMENT={your entitlement}
 ```
 
-## Contribute 
+or using the [cloudsmith cli](https://github.com/cloudsmith-io/cloudsmith-cli)
 
-1. Create the issue explaining the feature or bug
-1. Create a branch with the issue id in the branch name
-1. Make code changes
-1. Add an Action Job to verify your changes (when appropriate)
-1. Commit significant notes starting with `fix:` or `feat:`
-    1. BREAKING CHANGES: in such cases, but discouraged 
-    1. Will be included in release notes
-1. Make a pull request
+```
+cloudsmith entitlements list automodality/dev --show-tokens
+cloudsmith entitlements list automodality/release --show-tokens
+```
+**Run the Docker Container** in the root of the project you wish to build (e.g. ~/am/github/visbox).
+
+
+```
+docker run --entrypoint=/bin/bash -v `pwd`/:/github/workspace -w /github/workspace --env CLOUDSMITH_READ_DEV_ENTITLEMENT=$CLOUDSMITH_READ_DEV_ENTITLEMENT --env CLOUDSMITH_READ_RELEASE_ENTITLEMENT=$CLOUDSMITH_READ_RELEASE_ENTITLEMENT -it amros-build
+```
+
+**Run the Build Script** in the container.
+
+```
+/entrypoint.sh None None None None $CLOUDSMITH_READ_DEV_ENTITLEMENT $CLOUDSMITH_READ_RELEASE_ENTITLEMENT
+```
+
+
+## Parameters
+
+From [action.yml](action.yml).
+
+```
+  version:  
+    description: 'The version of the package to be generated. Other inputs ignored if provided.'
+    required: false
+    default: 'None'
+  branch: 
+    description: 'Optional: The branch name used in the minor version. Paths will be escaped.'
+    required: false
+    default: 'None'
+  build-number: 
+    description: 'Optional: Corresponds to the build number that invoked this. Patch version. '
+    required: false
+    default: 'None'
+  pull-request-number: 
+    description: 'Optional: Corresponds to the pull request that invoked this. Major version.'
+    required: false
+    default: 'None'
+  dev-repo-entitlement: 
+    description: 'Optional. If provided, will have access to the Cloudsmith dev repository for dependency download.'
+    required: false
+    default: 'None'
+  release-repo-entitlement: 
+    description: 'Optional. If provided, will have access to the Cloudsmith release repository for dependency download.'
+    required: false
+    default: 'None'
+outputs:
+  artifact-path:
+    description: 'The file path where the artifact can be found'
+```
