@@ -76,7 +76,7 @@ jobs:
         with:
            branch: branch/with_underscore
       - name: Confirm package name doesn't have underscore
-        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_branch-with-underscore_amd64.deb') != true
+        if: contains(steps.package.outputs.artifact-path, '.branch-with-underscore_amd64.deb') != true
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch-with-underscore "
           exit 1
