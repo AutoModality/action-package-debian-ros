@@ -65,7 +65,7 @@ jobs:
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 13 "
           exit 1
-  branch_underscore:
+  branch-underscore:
     runs-on: ubuntu-16.04
     name: Underscores in branches should be escaped
     steps:
@@ -134,6 +134,7 @@ jobs:
     name: Release if all tests pass on master branch
     needs:
       - branch-with-path
+      - branch-underscore
       - branch
       - pull-request-number
       - build-number
