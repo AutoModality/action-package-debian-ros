@@ -27,7 +27,7 @@ package_name_from_control(){
 # replaces / with - so feature/BB-182 = feature-BB-182 for version compatibility
 append_branch_version(){
     if [[ $branch != $NONE ]]; then
-        echo ".$(echo "$branch" | tr / -)"
+        echo ".$(echo "$branch" | tr /_ -)"
     fi
 }
 

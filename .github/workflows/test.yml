@@ -48,7 +48,7 @@ jobs:
       - name: Confirm package name uses version
         if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_13_amd64.deb') != true
         run: |
-          echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 0.0.13 "
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 13 "
           exit 1
   build-number:
     runs-on: ubuntu-16.04
@@ -63,7 +63,22 @@ jobs:
       - name: Confirm package name uses version
         if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_13_amd64.deb') != true
         run: |
-          echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 0.0.13 "
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 13 "
+          exit 1
+  branch-underscore:
+    runs-on: ubuntu-16.04
+    name: Underscores in branches should be escaped
+    steps:
+      - uses: actions/checkout@v1
+      - name: Package
+        id: package
+        uses: ./  #use the current project relative to root
+        with:
+           branch: branch/with_underscore
+      - name: Confirm package name doesn't have underscore
+        if: contains(steps.package.outputs.artifact-path, '.branch-with-underscore_amd64.deb') != true
+        run: |
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch-with-underscore "
           exit 1
   branch:
     runs-on: ubuntu-16.04
@@ -119,6 +134,7 @@ jobs:
     name: Release if all tests pass on master branch
     needs:
       - branch-with-path
+      - branch-underscore
       - branch
       - pull-request-number
       - build-number
