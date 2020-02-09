@@ -1,5 +1,4 @@
-ARG  ROS_VERSION=kinetic
-FROM ros:${ROS_VERSION}-perception-xenial
+FROM ros:melodic-perception-bionic
 
 # Bring up to date https://automodality.atlassian.net/wiki/spaces/AUTOMOD/pages/491579/Ubuntu+Setup#UbuntuSetup-BringUpToDate
 RUN apt-get -y update
@@ -18,7 +17,7 @@ SHELL ["/bin/bash", "-c"]
 RUN echo "export AM_PLATFORM=AM_VM" >> ~/.bashrc
 
 # Create Catkin Workspace Manually
-ARG ROS_VERSION=kinetic
+ARG ROS_VERSION=bionic
 # run this now so catkin make gets set up
 RUN mkdir -p ~/catkin_ws/src 
 RUN cd ~/catkin_ws/src;. /opt/ros/${ROS_VERSION}/setup.bash; catkin_init_workspace; cd ..; catkin_make
