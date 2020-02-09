@@ -107,7 +107,6 @@ mkdir -p $workspace
 mkdir -p $staging_dir
 cd $workspace
 
-source /opt/ros/kinetic/setup.bash
 
 if [[ ! -d "$DEBIAN_DIR" ]]; then
     echo "$DEBIAN_DIR must exist with rules (executable), "

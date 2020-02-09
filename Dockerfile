@@ -5,20 +5,9 @@ FROM ros:${ROS_VERSION}-perception-xenial
 RUN apt-get -y update
 RUN apt-get -y dist-upgrade
 
-# =======================================================================
-# Install Tools https://automodality.atlassian.net/wiki/spaces/AUTOMOD/pages/491579/Ubuntu+Setup#UbuntuSetup-InstallRequiredTools\
-# =======================================================================
-
-RUN apt-get -y install git
 RUN apt-get -y install exfat-fuse exfat-utils
-RUN apt-get -y install nano less emacs
 RUN apt-get -y install libusb-dev libusb-1.0-0-dev libusb-1.0-0
 RUN usermod -aG dialout root 
-
-# ============================================================================================================
-# Install Visbox  https://automodality.atlassian.net/wiki/spaces/AUTOMOD/pages/8585280/BrainBox+Software+Installation
-# ============================================================================================================
-RUN apt-get -y install ros-kinetic-mavros ros-kinetic-mavros-extras ros-kinetic-mavros-msgs
 
 RUN apt-get -y install apt-utils 
 RUN apt-get -y install xsdcxx
@@ -29,12 +18,12 @@ SHELL ["/bin/bash", "-c"]
 RUN echo "export AM_PLATFORM=AM_VM" >> ~/.bashrc
 
 # Create Catkin Workspace Manually
-
+ARG ROS_VERSION=kinetic
 # run this now so catkin make gets set up
 RUN mkdir -p ~/catkin_ws/src 
-RUN cd ~/catkin_ws/src;. /opt/ros/kinetic/setup.bash; catkin_init_workspace; cd ..; catkin_make
+RUN cd ~/catkin_ws/src;. /opt/ros/${ROS_VERSION}/setup.bash; catkin_init_workspace; cd ..; catkin_make
 # ensure ros commands are available on startup
-RUN echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+RUN echo "source /opt/ros/${ROS_VERSION}/setup.bash" >> ~/.bashrc
 RUN echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 
 
@@ -47,7 +36,6 @@ RUN mkdir ~/testdata
 # cloudsmith uses http transport so this reduces an error
 RUN apt-get -y install apt-transport-https
 
-RUN apt-get -y update
 RUN apt-get -y install javahelper # required for debhelper
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
