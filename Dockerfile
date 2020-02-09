@@ -17,6 +17,8 @@ RUN apt-get -y install devscripts equivs
 # cloudsmith uses http transport so this reduces an error
 RUN apt-get -y install apt-transport-https
 
+# this specific version avoid Invalid cross-link error during pkg-deb: building package rename step
+RUN apt-get -y install debhelper=12.1.1ubuntu1~ubuntu18.04.1
 RUN apt-get -y install javahelper # required for debhelper
 
 SHELL ["/bin/bash", "-c"]
