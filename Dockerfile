@@ -4,20 +4,9 @@ FROM ros:kinetic-perception-xenial
 RUN apt-get -y update
 RUN apt-get -y dist-upgrade
 
-# =======================================================================
-# Install Tools https://automodality.atlassian.net/wiki/spaces/AUTOMOD/pages/491579/Ubuntu+Setup#UbuntuSetup-InstallRequiredTools\
-# =======================================================================
-
-RUN apt-get -y install git
 RUN apt-get -y install exfat-fuse exfat-utils
-RUN apt-get -y install nano less emacs
 RUN apt-get -y install libusb-dev libusb-1.0-0-dev libusb-1.0-0
 RUN usermod -aG dialout root 
-
-# ============================================================================================================
-# Install Visbox  https://automodality.atlassian.net/wiki/spaces/AUTOMOD/pages/8585280/BrainBox+Software+Installation
-# ============================================================================================================
-RUN apt-get -y install ros-kinetic-mavros ros-kinetic-mavros-extras ros-kinetic-mavros-msgs
 
 RUN apt-get -y install apt-utils 
 RUN apt-get -y install xsdcxx
