@@ -10,7 +10,7 @@ ls -l $file
 apt -y install $file
 
 # see control file for package name
-ls -l /usr/share/doc/debian-package-test-action/changelog.gz
+ls -l /usr/share/doc/debian-package-test-action/changelog*
 
 # if we made it this far...then it is true
 echo ::set-output name=passed::true
