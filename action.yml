@@ -1,6 +1,6 @@
 # see package.yml for usage 
-name: 'Package on Ros Kinetic Perception'
-description: 'Debian packaging on ros:kinetic-perception'
+name: 'ROS Packaging'
+description: 'Debian packaging on ROS Perception'
 inputs:
   # if no inputs are given, the timestamp is used as the only version number
   version:  
