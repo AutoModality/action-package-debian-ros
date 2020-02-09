@@ -55,7 +55,7 @@ You will need to build packages in your local development environment.
 **Build the Docker Image** so you can run a container locally.
 
 ```
-docker build -t amros-build .
+docker build -t amros-build-melodic .
 ```
 
 **Provide access to package repository** by exporting Cloudsmith entitlements to environment variables.
@@ -63,30 +63,65 @@ docker build -t amros-build .
 * [Release repository entitlements](https://cloudsmith.io/elevate/?next=/~automodality/repos/release/entitlements/)
 * [Dev repository entitlements](https://cloudsmith.io/elevate/?next=/~automodality/repos/dev/entitlements/)
 
-```
-export CLOUDSMITH_READ_DEV_ENTITLEMENT={your entitlement}
-export CLOUDSMITH_READ_RELEASE_ENTITLEMENT={your entitlement}
-```
-
 or using the [cloudsmith cli](https://github.com/cloudsmith-io/cloudsmith-cli)
 
 ```
 cloudsmith entitlements list automodality/dev --show-tokens
 cloudsmith entitlements list automodality/release --show-tokens
 ```
-**Run the Docker Container** in the root of the project you wish to build (e.g. ~/am/github/visbox).
 
+Export the variables into your session or add them to your .bash_profile.
 
 ```
-docker run --entrypoint=/bin/bash -v `pwd`/:/github/workspace -w /github/workspace --env CLOUDSMITH_READ_DEV_ENTITLEMENT=$CLOUDSMITH_READ_DEV_ENTITLEMENT --env CLOUDSMITH_READ_RELEASE_ENTITLEMENT=$CLOUDSMITH_READ_RELEASE_ENTITLEMENT -it amros-build
+export CLOUDSMITH_READ_DEV_ENTITLEMENT={your entitlement}
+export CLOUDSMITH_READ_RELEASE_ENTITLEMENT={your entitlement}
 ```
 
-**Run the Build Script** in the container.
+**Change to the root of your project** 
+
+Each github repo builds individually so change to the root of the project.
+
+For example:
+```
+cd ~/am/github/visbox
+```
+
+**Run the build like Github**
+
+```
+docker run -v `pwd`/:/github/workspace -w /github/workspace --env CLOUDSMITH_READ_DEV_ENTITLEMENT=$CLOUDSMITH_READ_DEV_ENTITLEMENT --env CLOUDSMITH_READ_RELEASE_ENTITLEMENT=$CLOUDSMITH_READ_RELEASE_ENTITLEMENT -t amros-build-melodic
+```
+
+**Run the build interactively** 
+
+```
+docker run --entrypoint=/bin/bash -v `pwd`/:/github/workspace -w /github/workspace --env CLOUDSMITH_READ_DEV_ENTITLEMENT=$CLOUDSMITH_READ_DEV_ENTITLEMENT --env CLOUDSMITH_READ_RELEASE_ENTITLEMENT=$CLOUDSMITH_READ_RELEASE_ENTITLEMENT -it amros-build-melodic
+```
+
+*Run the Build Script* in the container.
 
 ```
 /entrypoint.sh None None None None $CLOUDSMITH_READ_DEV_ENTITLEMENT $CLOUDSMITH_READ_RELEASE_ENTITLEMENT
 ```
 
+The package is available at `/github`.
+
+Or run the debian build manually:
+
+```
+cd /github/workspace
+debian/rules binary
+```
+
+Or run `catkin_make`:
+
+Recommended: Run *Build Script* first to download dependencies.
+
+```
+ln -s /github/workspace ~/catkin_ws/src
+cd ~/catkin_ws
+catkin_make
+```
 
 ## Parameters
 

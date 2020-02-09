@@ -15,4 +15,4 @@ share*
 debian/debian-package-test-action
 debian/.debhelper
 debian/debian-package-test-action/
-debian/debian-package-test-action/DEBIAN/control
+debian-package-test-action-build-deps_*
