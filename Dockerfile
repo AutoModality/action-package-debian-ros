@@ -1,4 +1,5 @@
-FROM ros:kinetic-perception-xenial
+ARG  ROS_VERSION=kinetic
+FROM ros:${ROS_VERSION}-perception-xenial
 
 # Bring up to date https://automodality.atlassian.net/wiki/spaces/AUTOMOD/pages/491579/Ubuntu+Setup#UbuntuSetup-BringUpToDate
 RUN apt-get -y update
