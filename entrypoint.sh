@@ -121,7 +121,7 @@ echo $control_version_line > $DEBIAN_DIR/changelog
 authorize_dev_package_repo
 authorize_release_package_repo
 
-ource /opt/ros/melodic/setup.bash
+source /opt/ros/melodic/setup.bash
 
 # clean the debian and build directories and will validate necessary files
 debian/rules clean #ensures no residue
@@ -141,7 +141,7 @@ ls -lh $artifact_path
 
 # cleanup for the next user - BB-789 ARM builds fails since root owns generated directories.
 echo deleting generated directories debian and catkin_ws
-rm -rf debian
+debian/rules clean
 rm -rf catkin_ws
 
 echo ::set-output name=artifact-path::$artifact_path  #reference available to other actions
