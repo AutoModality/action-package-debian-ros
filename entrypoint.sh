@@ -139,9 +139,10 @@ mv ../$artifact_filename $artifact_path
 ls -lh $artifact_path
 
 # cleanup for the next user - BB-789 ARM builds fails since root owns generated directories.
-echo deleting generated directories debian and catkin_ws
-rm -rf debian
-rm -rf catkin_ws
+if [[ "$GITHUB_ACTIONS" == "true" ]]; then
+    echo deleting workspace for next build
+    rm -rf *
+fi
 
 echo ::set-output name=artifact-path::$artifact_path  #reference available to other actions
 
