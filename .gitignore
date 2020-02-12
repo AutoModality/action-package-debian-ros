@@ -13,3 +13,4 @@ _deps
 *.substvars
 share*
 debian/debian-package-test-action
+debian-package-test-action-build-*.deb
