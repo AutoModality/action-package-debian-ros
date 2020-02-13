@@ -55,7 +55,7 @@ You will need to build packages in your local development environment.
 **Build the Docker Image** so you can run a container locally.
 
 ```
-docker build -t amros-build-melodic .
+docker build -t amros-build-kinetic .
 ```
 
 **Provide access to package repository** by exporting Cloudsmith entitlements to environment variables.
@@ -89,13 +89,13 @@ cd ~/am/github/visbox
 **Run the build like Github**
 
 ```
-docker run -v `pwd`/:/github/workspace -w /github/workspace --env CLOUDSMITH_READ_DEV_ENTITLEMENT=$CLOUDSMITH_READ_DEV_ENTITLEMENT --env CLOUDSMITH_READ_RELEASE_ENTITLEMENT=$CLOUDSMITH_READ_RELEASE_ENTITLEMENT -t amros-build-melodic
+docker run -v `pwd`/:/github/workspace -w /github/workspace --env CLOUDSMITH_READ_DEV_ENTITLEMENT=$CLOUDSMITH_READ_DEV_ENTITLEMENT --env CLOUDSMITH_READ_RELEASE_ENTITLEMENT=$CLOUDSMITH_READ_RELEASE_ENTITLEMENT -t amros-build-kinetic
 ```
 
 **Run the build interactively** 
 
 ```
-docker run --entrypoint=/bin/bash -v `pwd`/:/github/workspace -w /github/workspace --env CLOUDSMITH_READ_DEV_ENTITLEMENT=$CLOUDSMITH_READ_DEV_ENTITLEMENT --env CLOUDSMITH_READ_RELEASE_ENTITLEMENT=$CLOUDSMITH_READ_RELEASE_ENTITLEMENT -it amros-build-melodic
+docker run --entrypoint=/bin/bash -v `pwd`/:/github/workspace -w /github/workspace --env CLOUDSMITH_READ_DEV_ENTITLEMENT=$CLOUDSMITH_READ_DEV_ENTITLEMENT --env CLOUDSMITH_READ_RELEASE_ENTITLEMENT=$CLOUDSMITH_READ_RELEASE_ENTITLEMENT -it amros-build-kinetic
 ```
 
 *Run the Build Script* in the container.
