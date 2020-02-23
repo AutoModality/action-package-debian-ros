@@ -75,7 +75,7 @@ jobs:
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 13 "
           exit 1
-        - name: Confirm version
+      - name: Confirm version
         if: steps.package.outputs.version != '13'
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to be 13 "
@@ -137,7 +137,7 @@ jobs:
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
           exit 1
-       - name: Confirm version
+      - name: Confirm version
         if: steps.package.outputs.version != '7.XX-13.8'
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to be 7.XX-13.8"
@@ -159,7 +159,7 @@ jobs:
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
           exit 1
-       - name: Confirm version
+      - name: Confirm version
         if: steps.package.outputs.version != 'feature-XX-13.8'
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to be feature-XX-13.8"
