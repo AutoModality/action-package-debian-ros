@@ -35,6 +35,8 @@ jobs:
           release-repo-entitlement: ${{ secrets.CLOUDSMITH_READ_RELEASE_ENTITLEMENT }}
       - name: The generated package
         run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
+      - name: The version
+        run: echo "The artifact version is ${{ steps.package.outputs.version }}"
 ```
 
 See [action.yml](action.yml) for more options. 
@@ -155,4 +157,6 @@ From [action.yml](action.yml).
 outputs:
   artifact-path:
     description: 'The file path where the artifact can be found'
+  version:
+    description: 'The version of the artifact.'
 ```
