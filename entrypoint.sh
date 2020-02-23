@@ -145,3 +145,4 @@ if [[ "$GITHUB_ACTIONS" == "true" ]]; then
 fi
 
 echo ::set-output name=artifact-path::$artifact_path  #reference available to other actions
+echo ::set-output name=version::$version  #reference available to other actions
