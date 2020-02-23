@@ -36,7 +36,7 @@ jobs:
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 0.0.13 "
           exit 1
       - name: Confirm the version is output
-        if: contains(steps.package.outputs.version, '0.0.13') != true
+        if: steps.package.outputs.version != '0.0.13'
         run: |
           echo "Expected ${{ steps.package.outputs.version }} to be 0.0.13 "
           exit 1
@@ -55,6 +55,11 @@ jobs:
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 13 "
           exit 1
+      - name: Confirm version
+        if: steps.package.outputs.version != '13'
+        run: |
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to be 13 "
+          exit 1
   build-number:
     runs-on: ubuntu-16.04
     name: Build number only is used
@@ -69,6 +74,11 @@ jobs:
         if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_13_amd64.deb') != true
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 13 "
+          exit 1
+        - name: Confirm version
+        if: steps.package.outputs.version != '13'
+        run: |
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to be 13 "
           exit 1
   branch-underscore:
     runs-on: ubuntu-16.04
@@ -85,6 +95,11 @@ jobs:
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch-with-underscore "
           exit 1
+      - name: Confirm version
+        if: steps.package.outputs.version != 'branch-with-underscore'
+        run: |
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to be branch-with-underscore "
+          exit 1
   branch:
     runs-on: ubuntu-16.04
     name: Branch only uses timestamp with branch
@@ -99,6 +114,11 @@ jobs:
         if: contains(steps.package.outputs.artifact-path, '.XX-13_amd64.deb') != true
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
+          exit 1
+      - name: Confirm version
+        if: steps.package.outputs.version != 'XX-13'
+        run: |
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to be XX-13 "
           exit 1
   pr-branch-build:
     runs-on: ubuntu-16.04
@@ -117,6 +137,11 @@ jobs:
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
           exit 1
+       - name: Confirm version
+        if: steps.package.outputs.version != '7.XX-13.8'
+        run: |
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to be 7.XX-13.8"
+          exit 1 
   branch-with-path:
     runs-on: ubuntu-16.04
     name: Path branch like feature/XX-13 is escaped
@@ -134,6 +159,11 @@ jobs:
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
           exit 1
+       - name: Confirm version
+        if: steps.package.outputs.version != 'feature-XX-13.8'
+        run: |
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to be feature-XX-13.8"
+          exit 1 
   release:
     runs-on: ubuntu-16.04
     name: Release if all tests pass on master branch
