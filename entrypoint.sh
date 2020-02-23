@@ -116,7 +116,8 @@ fi
 
 package_name=$(package_name_from_control)
 #TODO: get release notes from github and add them to the changelog
-control_version_line="$package_name ($(version_guaranteed)) unstable; urgency=medium"
+version=$(version_guaranteed)
+control_version_line="$package_name ($version) unstable; urgency=medium"
 echo $control_version_line > $DEBIAN_DIR/changelog
 
 authorize_dev_package_repo
