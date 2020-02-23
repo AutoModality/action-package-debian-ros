@@ -58,7 +58,7 @@ jobs:
       - name: Confirm version
         if: steps.package.outputs.version != '13'
         run: |
-          echo "Expected ${{ steps.package.outputs.artifact-path }} to be 13 "
+          echo "Expected ${{ steps.package.outputs.version }} to be 13 "
           exit 1
   build-number:
     runs-on: ubuntu-16.04
@@ -78,7 +78,7 @@ jobs:
       - name: Confirm version
         if: steps.package.outputs.version != '13'
         run: |
-          echo "Expected ${{ steps.package.outputs.artifact-path }} to be 13 "
+          echo "Expected ${{ steps.package.outputs.version }} to be 13 "
           exit 1
   branch-underscore:
     runs-on: ubuntu-16.04
@@ -98,7 +98,7 @@ jobs:
       - name: Confirm version
         if: steps.package.outputs.version != 'branch-with-underscore'
         run: |
-          echo "Expected ${{ steps.package.outputs.artifact-path }} to be branch-with-underscore "
+          echo "Expected ${{ steps.package.outputs.version }} to be branch-with-underscore "
           exit 1
   branch:
     runs-on: ubuntu-16.04
@@ -118,7 +118,7 @@ jobs:
       - name: Confirm version
         if: steps.package.outputs.version != 'XX-13'
         run: |
-          echo "Expected ${{ steps.package.outputs.artifact-path }} to be XX-13 "
+          echo "Expected ${{ steps.package.outputs.version }} to be XX-13 "
           exit 1
   pr-branch-build:
     runs-on: ubuntu-16.04
@@ -140,7 +140,7 @@ jobs:
       - name: Confirm version
         if: steps.package.outputs.version != '7.XX-13.8'
         run: |
-          echo "Expected ${{ steps.package.outputs.artifact-path }} to be 7.XX-13.8"
+          echo "Expected ${{ steps.package.outputs.version }} to be 7.XX-13.8"
           exit 1 
   branch-with-path:
     runs-on: ubuntu-16.04
@@ -162,7 +162,7 @@ jobs:
       - name: Confirm version
         if: steps.package.outputs.version != 'feature-XX-13.8'
         run: |
-          echo "Expected ${{ steps.package.outputs.artifact-path }} to be feature-XX-13.8"
+          echo "Expected ${{ steps.package.outputs.version}} to be feature-XX-13.8"
           exit 1 
   release:
     runs-on: ubuntu-16.04
