@@ -116,7 +116,7 @@ jobs:
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
           exit 1
       - name: Confirm version
-        if: contains(steps.package.outputs.version, '7.XX-13.8')  != true
+        if: contains(steps.package.outputs.version, 'XX-13')  != true
         run: |
           echo "Expected ${{ steps.package.outputs.version }} to be XX-13 "
           exit 1
