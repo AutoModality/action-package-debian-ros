@@ -35,6 +35,11 @@ jobs:
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 0.0.13 "
           exit 1
+      - name: Confirm the version is output
+        if: contains(steps.package.outputs.version, '0.0.13') != true
+        run: |
+          echo "Expected ${{ steps.package.outputs.version }} to be 0.0.13 "
+          exit 1
   pull-request-number:
     runs-on: ubuntu-16.04
     name: Pull request number alone is used
