@@ -96,7 +96,7 @@ jobs:
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch-with-underscore "
           exit 1
       - name: Confirm version
-        if: steps.package.outputs.version != 'branch-with-underscore'
+        if: contains(steps.package.outputs.version, 'branch-with-underscore')  != true
         run: |
           echo "Expected ${{ steps.package.outputs.version }} to be branch-with-underscore "
           exit 1
@@ -116,7 +116,7 @@ jobs:
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
           exit 1
       - name: Confirm version
-        if: steps.package.outputs.version != 'XX-13'
+        if: contains(steps.package.outputs.version, '7.XX-13.8')  != true
         run: |
           echo "Expected ${{ steps.package.outputs.version }} to be XX-13 "
           exit 1
@@ -160,9 +160,9 @@ jobs:
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
           exit 1
       - name: Confirm version
-        if: steps.package.outputs.version != 'feature-XX-13.8'
+        if: steps.package.outputs.version != '7.feature-XX-13.8'
         run: |
-          echo "Expected ${{ steps.package.outputs.version}} to be feature-XX-13.8"
+          echo "Expected ${{ steps.package.outputs.version}} to be 7.feature-XX-13.8"
           exit 1 
   release:
     runs-on: ubuntu-16.04
