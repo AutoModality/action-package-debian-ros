@@ -123,8 +123,6 @@ echo $control_version_line > $DEBIAN_DIR/changelog
 authorize_dev_package_repo
 authorize_release_package_repo
 
-# clean the debian and build directories and will validate necessary files
-debian/rules clean #ensures no residue
 
 #gets dependencies and packages them for 
 mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
