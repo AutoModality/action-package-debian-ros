@@ -9,6 +9,7 @@ ROS project packaging in Debian format ready for installation.
 ---
 
 ## Features
+* Built from ros:kinetic base Docker image
 * Generates a debian package available for subsequent actions to access (presumably install or deploy)
 * Generates changelog based on the version provided
 * Version can be provided directly
