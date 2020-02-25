@@ -135,8 +135,13 @@ artifact_path="$staging_dir/$artifact_filename"
 mv ../$artifact_filename $artifact_path
 
 #show the details of the file FYI and to validate existence
+echo package file info -----------------------
 ls -lh $artifact_path
+
+echo package contents -----------------------
 dpkg --contents $artifact_path
+
+echo package info  -----------------------
 dpkg --info $artifact_path
 
 echo ::set-output name=artifact-path::$artifact_path  #reference available to other actions
