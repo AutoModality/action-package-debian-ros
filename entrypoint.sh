@@ -138,11 +138,12 @@ mv ../$artifact_filename $artifact_path
 echo package file info -----------------------
 ls -lh $artifact_path
 
+echo package info  -----------------------
+dpkg --info $artifact_path
+
 echo package contents -----------------------
 dpkg --contents $artifact_path
 
-echo package info  -----------------------
-dpkg --info $artifact_path
 
 echo ::set-output name=artifact-path::$artifact_path  #reference available to other actions
 echo ::set-output name=version::$version  #reference available to other actions
