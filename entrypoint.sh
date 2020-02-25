@@ -139,11 +139,6 @@ mv ../$artifact_filename $artifact_path
 #show the details of the file FYI and to validate existence
 ls -lh $artifact_path
 
-# cleanup for the next user - BB-789 ARM builds fails since root owns generated directories.
-if [[ "$GITHUB_ACTIONS" == "true" ]]; then
-    echo deleting workspace for next build
-    rm -rf *
-fi
 
 echo ::set-output name=artifact-path::$artifact_path  #reference available to other actions
 echo ::set-output name=version::$version  #reference available to other actions
