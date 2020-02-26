@@ -30,6 +30,8 @@ inputs:
 outputs:
   artifact-path:
     description: 'The file path where the artifact can be found'
+  version:
+    description: 'The version of the artifact.'
 
 runs:
   using: 'docker'

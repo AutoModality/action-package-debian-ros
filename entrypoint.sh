@@ -116,14 +116,13 @@ fi
 
 package_name=$(package_name_from_control)
 #TODO: get release notes from github and add them to the changelog
-control_version_line="$package_name ($(version_guaranteed)) unstable; urgency=medium"
+version=$(version_guaranteed)
+control_version_line="$package_name ($version) unstable; urgency=medium"
 echo $control_version_line > $DEBIAN_DIR/changelog
 
 authorize_dev_package_repo
 authorize_release_package_repo
 
-# clean the debian and build directories and will validate necessary files
-debian/rules clean #ensures no residue
 
 #gets dependencies and packages them for 
 mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
@@ -136,12 +135,15 @@ artifact_path="$staging_dir/$artifact_filename"
 mv ../$artifact_filename $artifact_path
 
 #show the details of the file FYI and to validate existence
+echo package file info -----------------------
 ls -lh $artifact_path
 
-# cleanup for the next user - BB-789 ARM builds fails since root owns generated directories.
-if [[ "$GITHUB_ACTIONS" == "true" ]]; then
-    echo deleting workspace for next build
-    rm -rf *
-fi
+echo package info  -----------------------
+dpkg --info $artifact_path
+
+echo package contents -----------------------
+dpkg --contents $artifact_path
+
 
 echo ::set-output name=artifact-path::$artifact_path  #reference available to other actions
+echo ::set-output name=version::$version  #reference available to other actions
