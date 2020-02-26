@@ -20,7 +20,7 @@ cloudsmith_read_release_entitlement=${6:-$NONE}
 # extract the package name from the control file
 package_name_from_control(){
     #get the project name from the control file
-    package_line=$(cat debian/control | grep Package)
+    package_line=$(cat debian/control | grep Package:)
     echo "$package_line" | awk -F': ' '{print $2}'
 }
 
