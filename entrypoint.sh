@@ -13,8 +13,8 @@ version=${1:-$NONE} # the version of the generated package
 build_number=${2:-$NONE}
 pull_request_number=${3:-$NONE}
 branch=${4:-$NONE}
-cloudsmith_read_dev_entitlement=${5:-$NONE}
-cloudsmith_read_release_entitlement=${6:-$NONE}
+cloudsmith_read_dev_entitlement=${5:-${CLOUDSMITH_READ_DEV_ENTITLEMENT:-$NONE}}
+cloudsmith_read_release_entitlement=${6:-${CLOUDSMITH_READ_RELEASE_ENTITLEMENT:-$NONE}}
 
 
 # extract the package name from the control file
