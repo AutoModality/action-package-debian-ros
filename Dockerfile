@@ -7,9 +7,8 @@ RUN apt-get -y update
 RUN apt-get -y install apt-utils 
 RUN apt-get -y dist-upgrade
 
-RUN apt-get -y install apt-utils apt-transport-https python-catkin-tools xsdcxx devscripts equivs javahelper 
+RUN apt-get -y install apt-utils apt-transport-https python-catkin-tools xsdcxx devscripts equivs debhelper=12.1.1ubuntu1~ubuntu18.04.1 javahelper 
 RUN usermod -aG dialout root 
-
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
