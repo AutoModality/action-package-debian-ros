@@ -7,6 +7,8 @@ set -e # fail on error
 
 ls -l $file
 
+dpkg -c $file
+
 apt -y install $file
 
 # see control file for package name
