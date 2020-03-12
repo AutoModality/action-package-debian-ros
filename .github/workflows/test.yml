@@ -17,7 +17,8 @@ jobs:
       - name: Validate package file provided exists
         uses: ./.github/actions/test@local
         with:
-          package-file: ${{ steps.package.outputs.artifact-path }}      
+          package-file: ${{ steps.package.outputs.artifact-path }}
+          package-version: ${{ steps.package.outputs.version }}      
   version:
     runs-on: ubuntu-16.04
     name: Package uses version provided

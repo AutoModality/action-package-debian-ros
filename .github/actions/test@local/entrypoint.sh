@@ -2,20 +2,16 @@
 
 
 file=$1
+version=$2
 
 set -e # fail on error
 
 ls -l $file
 
 dpkg -c $file
-
-apt-get update
-apt-get install -y apt-utils
 apt -y install $file
 
-# see control file for package name
-ls -l /usr/share/doc/debian-package-test-action/
-ls -l /usr/share/doc/debian-package-test-action/changelog.gz
+apt-cache policy apt-utils | grep Installed: | grep $file
 
 # if we made it this far...then it is true
 echo ::set-output name=passed::true
