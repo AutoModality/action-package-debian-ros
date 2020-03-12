@@ -11,7 +11,9 @@ ls -l $file
 dpkg -c $file
 apt -y install $file
 
-apt-cache policy apt-utils | grep Installed: | grep $file
+echo verifying $file with version $version is installed
+
+apt-cache policy apt-utils | grep Installed: | grep $version
 
 # if we made it this far...then it is true
 echo ::set-output name=passed::true
