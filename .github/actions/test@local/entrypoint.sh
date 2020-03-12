@@ -13,7 +13,8 @@ apt -y install $file
 
 echo verifying $file with version $version is installed
 
-apt-cache policy apt-utils | grep Installed: | grep $version
+# debian-package-test-action is the name of the action, per the debian/control and debian/changelog.
+apt-cache policy debian-package-test-action | grep Installed: | grep $version
 
 # if we made it this far...then it is true
 echo ::set-output name=passed::true
