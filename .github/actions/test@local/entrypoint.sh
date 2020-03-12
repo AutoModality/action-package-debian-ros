@@ -9,6 +9,7 @@ ls -l $file
 
 dpkg -c $file
 
+apt-get update
 apt-get install -y apt-utils
 apt -y install $file
 
