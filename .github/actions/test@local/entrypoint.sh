@@ -9,6 +9,7 @@ ls -l $file
 
 dpkg -c $file
 
+apt-get install -y apt-utils
 apt -y install $file
 
 # see control file for package name
