@@ -9,7 +9,7 @@ ROS project packaging in Debian format ready for installation.
 ---
 
 ## Features
-* Built from ros:kinetic base Docker image
+* Built from ros:melodic base Docker image
 * Generates a debian package available for subsequent actions to access (presumably install or deploy)
 * Generates changelog based on the version provided
 * Version can be provided directly
@@ -58,7 +58,7 @@ You will need to build packages in your local development environment.
 **Build the Docker Image** so you can run a container locally.
 
 ```
-docker build -t amros-build-kinetic .
+docker build -t amros-build-melodic .
 ```
 
 **Provide access to package repository** by exporting Cloudsmith entitlements to environment variables.
@@ -93,8 +93,8 @@ cd ~/am/github/visbox
 
 ```
 docker run -v `pwd`/:/github/workspace -w /github/workspace \
-  --env CLOUDSMITH_READ_DEV_ENTITLEMENT=$CLOUDSMITH_READ_DEV_ENTITLEMENT \
-  --env CLOUDSMITH_READ_RELEASE_ENTITLEMENT=$CLOUDSMITH_READ_RELEASE_ENTITLEMENT \
+  --env CLOUDSMITH_READ_DEV_ENTITLEMENT \
+  --env CLOUDSMITH_READ_RELEASE_ENTITLEMENT \
   -t amros-build-melodic
 ```
 

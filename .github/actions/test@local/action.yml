@@ -5,6 +5,9 @@ inputs:
   package-file:  
     description: 'The package file'
     required: true
+  package-version:  
+    description: 'The version of the package'
+    required: true
 outputs:
   passed:
     description: 'True indicates all tests passed. '
@@ -14,3 +17,4 @@ runs:
   image: 'Dockerfile'
   args: # see entrypoint.sh for the recipient of these - order matters
     - ${{ inputs.package-file }}
+    - ${{ inputs.package-version }}
