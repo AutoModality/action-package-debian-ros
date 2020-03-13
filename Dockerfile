@@ -1,4 +1,4 @@
-FROM ros:melodic
+FROM ros:melodic-perception
 
 ENV DEBIAN_FRONTEND noninteractive
 
