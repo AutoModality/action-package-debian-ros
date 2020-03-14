@@ -5,7 +5,6 @@ ENV DEBIAN_FRONTEND noninteractive
 # Bring up to date https://automodality.atlassian.net/wiki/spaces/AUTOMOD/pages/491579/Ubuntu+Setup#UbuntuSetup-BringUpToDate
 RUN apt-get -y update
 RUN apt-get -y install apt-utils 
-RUN apt-get -y dist-upgrade
 
 RUN apt-get -y install \
         apt-utils=1.6.12 \
@@ -16,7 +15,6 @@ RUN apt-get -y install \
         equivs=2.1.0 \ 
         debhelper=12.1.1ubuntu1~ubuntu18.04.1 \ 
         javahelper=0.72.1~18.04.1
-
         
 SHELL ["/bin/bash", "-c"]
 
