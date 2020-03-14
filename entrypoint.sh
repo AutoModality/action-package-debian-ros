@@ -102,8 +102,6 @@ set -e # fail on error
 staging_dir="/github/home"
 workspace="/github/workspace"
 
-/opt/ros/melodic/setup.bash
-
 # the git root is always mapped to the docker's /root
 mkdir -p $workspace
 mkdir -p $staging_dir

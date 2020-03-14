@@ -19,6 +19,8 @@ RUN apt-get -y install \
         
 RUN usermod -aG dialout root 
 
+RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
 
