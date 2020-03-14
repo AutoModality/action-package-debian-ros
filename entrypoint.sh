@@ -107,11 +107,12 @@ mkdir -p $workspace
 mkdir -p $staging_dir
 cd $workspace
 
-
 if [[ ! -d "$DEBIAN_DIR" ]]; then
     echo "$DEBIAN_DIR must exist with rules (executable), "
     exit 1
 fi
+
+
 
 package_name=$(package_name_from_control)
 #TODO: get release notes from github and add them to the changelog
@@ -122,6 +123,9 @@ echo $control_version_line > $DEBIAN_DIR/changelog
 authorize_dev_package_repo
 authorize_release_package_repo
 
+# sourcing seems not to work 
+source /opt/ros/melodic/setup.bash
+source ~/catkin_ws/devel/setup.bash
 
 #gets dependencies and packages them for 
 mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
