@@ -17,8 +17,7 @@ RUN apt-get -y install \
         debhelper=12.1.1ubuntu1~ubuntu18.04.1 \ 
         javahelper=0.72.1~18.04.1
 
-RUN usermod -aG dialout root 
-
+        
 SHELL ["/bin/bash", "-c"]
 
 RUN mkdir -p ~/catkin_ws/src 
