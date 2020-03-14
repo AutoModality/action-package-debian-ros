@@ -16,14 +16,6 @@ RUN apt-get -y install \
         debhelper=12.1.1ubuntu1~ubuntu18.04.1 \ 
         javahelper=0.72.1~18.04.1
         
-SHELL ["/bin/bash", "-c"]
-
-RUN mkdir -p ~/catkin_ws/src 
-RUN cd ~/catkin_ws/src;. /opt/ros/melodic/setup.bash; catkin_init_workspace; cd ..; catkin_make
-# ensure ros commands are available on startup
-RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-RUN echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
-
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
 
