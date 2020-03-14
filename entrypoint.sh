@@ -125,7 +125,6 @@ authorize_release_package_repo
 
 # sourcing seems not to work 
 source /opt/ros/melodic/setup.bash
-source ~/catkin_ws/devel/setup.bash
 
 #gets dependencies and packages them for 
 mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
