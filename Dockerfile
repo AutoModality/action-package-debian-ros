@@ -21,6 +21,8 @@ RUN usermod -aG dialout root
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
+COPY release-build.sh /release-build.sh
+COPY story-build.sh /story-build.sh
 
 # Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/entrypoint.sh"]
