@@ -36,6 +36,8 @@ append_branch_version(){
 authorize_dev_package_repo(){
 
     if [[ $cloudsmith_read_dev_entitlement != $NONE ]]; then
+        echo "Entitlement provided to access Cloudsmith Dev Repository.  You should see OK messages."
+
         curl -u "token:$cloudsmith_read_dev_entitlement" -1sLf \
         'https://dl.cloudsmith.io/basic/automodality/dev/cfg/setup/bash.deb.sh' \
         | sudo bash
@@ -50,6 +52,7 @@ authorize_dev_package_repo(){
 authorize_release_package_repo(){
 
     if [[ $cloudsmith_read_release_entitlement != $NONE ]]; then
+        echo "Entitlement provided to access Cloudsmith Release Repository.  You should see OK messages."
         curl -u "token:$cloudsmith_read_release_entitlement" -1sLf \
         'https://dl.cloudsmith.io/basic/automodality/release/cfg/setup/bash.deb.sh' \
         | sudo bash
