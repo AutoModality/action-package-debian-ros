@@ -132,8 +132,9 @@ mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-in
 debian/rules binary #performs the package
 
 artifact_filename=$(ls .. | grep .deb | tail -1) #the package is generated in base directory
-artifact_path="$staging_dir/$artifact_filename"
 
+# share with other actions in github
+artifact_path="$staging_dir/$artifact_filename"
 mv ../$artifact_filename $artifact_path
 
 #show the details of the file FYI and to validate existence
