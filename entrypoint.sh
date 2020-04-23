@@ -36,6 +36,8 @@ append_branch_version(){
 authorize_dev_package_repo(){
 
     if [[ $cloudsmith_read_dev_entitlement != $NONE ]]; then
+        echo "Entitlement provided to access Cloudsmith Dev Repository.  You should see OK messages."
+
         curl -u "token:$cloudsmith_read_dev_entitlement" -1sLf \
         'https://dl.cloudsmith.io/basic/automodality/dev/cfg/setup/bash.deb.sh' \
         | sudo bash
@@ -50,6 +52,7 @@ authorize_dev_package_repo(){
 authorize_release_package_repo(){
 
     if [[ $cloudsmith_read_release_entitlement != $NONE ]]; then
+        echo "Entitlement provided to access Cloudsmith Release Repository.  You should see OK messages."
         curl -u "token:$cloudsmith_read_release_entitlement" -1sLf \
         'https://dl.cloudsmith.io/basic/automodality/release/cfg/setup/bash.deb.sh' \
         | sudo bash
@@ -129,8 +132,9 @@ mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-in
 debian/rules binary #performs the package
 
 artifact_filename=$(ls .. | grep .deb | tail -1) #the package is generated in base directory
-artifact_path="$staging_dir/$artifact_filename"
 
+# share with other actions in github
+artifact_path="$staging_dir/$artifact_filename"
 mv ../$artifact_filename $artifact_path
 
 #show the details of the file FYI and to validate existence
