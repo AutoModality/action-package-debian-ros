@@ -199,6 +199,8 @@ jobs:
         run: |
           image_name="docker.cloudsmith.io/automodality/release/amros-build-melodic"
           image_name_and_version="$image_name":${{ steps.semantic.outputs.new_release_version }}
+          image_name_latest="$image_name":latest
           docker build -t "$image_name_and_version" .
-          docker tag "$image_name_and_version" "$image_name":latest
+          docker tag "$image_name_and_version" "$image_name_latest"
           docker push "$image_name_and_version"
+          docker push "$image_name_latest"
