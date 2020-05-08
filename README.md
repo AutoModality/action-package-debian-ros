@@ -29,10 +29,10 @@ jobs:
     runs-on: ubuntu-16.04
     name: Example of creating a debian package
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Package
         id: package
-        uses: AutoModality/action-package-debian-ros@v1
+        uses: AutoModality/action-package-debian-ros@v3
         with:
           version: 1.3.0
           release-repo-entitlement: ${{ secrets.CLOUDSMITH_READ_RELEASE_ENTITLEMENT }}
