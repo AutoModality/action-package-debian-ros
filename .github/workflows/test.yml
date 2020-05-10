@@ -1,4 +1,4 @@
-name: Validate Packaging
+name: Release
 on: push
 jobs:
   default-version:
