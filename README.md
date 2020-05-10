@@ -1,12 +1,14 @@
 # Debian Packaging on a ROS Container
 ROS project packaging in Debian format ready for installation.
 
+
 See also [Wiki Docs](https://automodality.atlassian.net/wiki/spaces/AMROS/pages/758382915/Continuous+Integration+with+Github+Actions#Local-building)
 
 ---
 
 [
 ![Action Badge](https://github.com/AutoModality/action-package-debian-ros/workflows/Validate%20Packaging/badge.svg)](https://github.com/AutoModality/action-package-debian-ros/actions)
+ [![GitHub release (latest by date)](https://img.shields.io/github/release-date/AutoModality/action-package-debian-ros)](https://github.com/AutoModality/action-package-debian-ros/releases)
 
 ---
 
