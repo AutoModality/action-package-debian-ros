@@ -52,12 +52,12 @@ jobs:
         with:
           pull-request-number: 13
       - name: Confirm package name uses version
-        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_13_amd64.deb') != true
+        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_13.') != true
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 13 "
           exit 1
       - name: Confirm version
-        if: steps.package.outputs.version != '13'
+        if: contains(steps.package.outputs.version,'13') != true
         run: |
           echo "Expected ${{ steps.package.outputs.version }} to be 13 "
           exit 1
@@ -72,12 +72,12 @@ jobs:
         with:
           build-number: 13
       - name: Confirm package name uses version
-        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_13_amd64.deb') != true
+        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_13.') != true
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 13 "
           exit 1
       - name: Confirm version
-        if: steps.package.outputs.version != '13'
+        if: contains(steps.package.outputs.version, '13.') != true
         run: |
           echo "Expected ${{ steps.package.outputs.version }} to be 13 "
           exit 1
@@ -134,12 +134,12 @@ jobs:
           branch: XX-13
           build-number: 8
       - name: Confirm package name uses version
-        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_7.XX-13.8_amd64.deb') != true
+        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_7.XX-13.') != true
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
           exit 1
       - name: Confirm version
-        if: steps.package.outputs.version != '7.XX-13.8'
+        if: contains(steps.package.outputs.version, '7.XX-13.8.') != true
         run: |
           echo "Expected ${{ steps.package.outputs.version }} to be 7.XX-13.8"
           exit 1 
@@ -156,12 +156,12 @@ jobs:
           branch: feature/XX-13
           build-number: 8
       - name: Confirm package name uses version
-        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_7.feature-XX-13.8_amd64.deb') != true
+        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_7.feature-XX-13.8.') != true
         run: |
           echo "Expected ${{ steps.package.outputs.artifact-path }} to contain branch "
           exit 1
       - name: Confirm version
-        if: steps.package.outputs.version != '7.feature-XX-13.8'
+        if: contains(steps.package.outputs.version, '7.feature-XX-13.8') != true
         run: |
           echo "Expected ${{ steps.package.outputs.version}} to be 7.feature-XX-13.8"
           exit 1 

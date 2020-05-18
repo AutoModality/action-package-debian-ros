@@ -30,6 +30,10 @@ append_branch_version(){
         echo ".$(echo "$branch" | tr /_ -)"
     fi
 }
+#provides a timestamp as unique number to ensure version will be unique
+append_timestamp(){
+    echo ".$(date +%Y%m%d%H%M%S )"
+}
 
 # cloudsmith package repository needs to be included for dependency downloads
 # it is private and requires access key provided as a parameter
@@ -67,31 +71,33 @@ authorize_release_package_repo(){
 # if
 version_guaranteed(){
     
-    if [[ $version != $NONE ]]; then
+    if [[ "$version" != "$NONE" ]]; then
         # use version as provided
-        v=$version
-        elif [[ $pull_request_number != $NONE ]]; then
+        v="$version"
+    elif [[ $pull_request_number != $NONE ]]; then
         # pr as the major is good for consistency and identity
         # possibilities:
         # {pr#}
         # {pr#}.{branch}
         # {pr#}.{build#}
         # {pr#}.{branch}.{build#}
-        v=$pull_request_number$(append_branch_version)
-        if [[ $build_number != $NONE ]]; then
+        v="$pull_request_number$(append_branch_version)"
+        if [[ "$build_number" != "$NONE" ]]; then
             v="$v.$build_number"
         fi
-        elif [[ $build_number != $NONE ]]; then
+        v="$v$(append_timestamp)"
+    elif [[ "$build_number" != "$NONE" ]]; then
         # build number is fine as the major and is good for identify (once github provides it)
         # branch provides consistency across builds
-        # {build#}
-        # {build#}.{branch}
-        v=$build_number$(append_branch_version)
+        # timestamp provides uniquenenss allowing repeat deployment
+        # {build#}.{timestamp}
+        # {build#}.{branch}.{timestamp}
+        v="$build_number$(append_branch_version)$(append_timestamp)"
     else
         # nothing provided.  use date
         # {timestamp}
         # {timestamp}.{branch}
-        v=$(date +%Y%m%d%H%M%S )$(append_branch_version)
+        v="0$(append_timestamp)$(append_branch_version)"
     fi
     
     echo $v
