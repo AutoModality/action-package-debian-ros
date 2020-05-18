@@ -5,7 +5,6 @@ ENV DEBIAN_FRONTEND noninteractive
 # Bring up to date https://automodality.atlassian.net/wiki/spaces/AUTOMOD/pages/491579/Ubuntu+Setup#UbuntuSetup-BringUpToDate
 RUN apt-get -y update
 RUN apt-get -y install apt-utils 
-RUN apt-get -y dist-upgrade
 
 RUN apt-get -y install \
         apt-utils=1.6.12ubuntu0.1 \
