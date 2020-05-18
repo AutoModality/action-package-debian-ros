@@ -81,10 +81,11 @@ version_guaranteed(){
         # {pr#}.{branch}
         # {pr#}.{build#}
         # {pr#}.{branch}.{build#}
-        v="$pull_request_number$(append_branch_version)$(append_timestamp)"
+        v="$pull_request_number$(append_branch_version)"
         if [[ "$build_number" != "$NONE" ]]; then
             v="$v.$build_number"
         fi
+        v="$v$(append_timestamp)"
     elif [[ "$build_number" != "$NONE" ]]; then
         # build number is fine as the major and is good for identify (once github provides it)
         # branch provides consistency across builds
