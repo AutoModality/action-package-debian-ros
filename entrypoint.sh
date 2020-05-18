@@ -71,9 +71,9 @@ authorize_release_package_repo(){
 # if
 version_guaranteed(){
     
-    if [[ $version != $NONE ]]; then
+    if [[ "$version" != "$NONE" ]]; then
         # use version as provided
-        v=$version
+        v="$version"
     elif [[ $pull_request_number != $NONE ]]; then
         # pr as the major is good for consistency and identity
         # possibilities:
@@ -81,11 +81,11 @@ version_guaranteed(){
         # {pr#}.{branch}
         # {pr#}.{build#}
         # {pr#}.{branch}.{build#}
-        v=$pull_request_number$(append_branch_version)$(append_timestamp)
-        if [[ $build_number != $NONE ]]; then
+        v="$pull_request_number$(append_branch_version)$(append_timestamp)"
+        if [[ "$build_number" != "$NONE" ]]; then
             v="$v.$build_number"
         fi
-    elif [[ $build_number != $NONE ]]; then
+    elif [[ "$build_number" != "$NONE" ]]; then
         # build number is fine as the major and is good for identify (once github provides it)
         # branch provides consistency across builds
         # timestamp provides uniquenenss allowing repeat deployment
@@ -96,7 +96,7 @@ version_guaranteed(){
         # nothing provided.  use date
         # {timestamp}
         # {timestamp}.{branch}
-        v=0$(append_timestamp)$(append_branch_version)
+        v="0$(append_timestamp)$(append_branch_version)"
     fi
     
     echo $v
