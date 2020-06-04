@@ -16,3 +16,4 @@ debian/debian-package-test-action
 debian/.debhelper
 debian/debian-package-test-action/
 debian-package-test-action-build-*
+.history
