@@ -132,7 +132,8 @@ authorize_dev_package_repo
 authorize_release_package_repo
 
 
-#gets dependencies and packages them for 
+# installs dependencies from debian control file
+# https://stackoverflow.com/a/19432425/721000
 mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
 
 debian/rules binary #performs the package
