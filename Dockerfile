@@ -10,6 +10,7 @@ RUN apt-get -y install \
         apt-utils=1.6.12ubuntu0.1 \
         apt-transport-https=1.6.12ubuntu0.1 \
         python-catkin-tools=0.6.1-1 \
+        catkin=0.7.8-1 \
         xsdcxx=4.0.0-7build1 \ 
         devscripts=2.17.12ubuntu1.1 \
         equivs=2.1.0 \ 
