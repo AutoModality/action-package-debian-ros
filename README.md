@@ -50,12 +50,47 @@ See [action.yml](action.yml) for more options.
 
 Uses Semantic Release to publish [releases](https://github.com/AutoModality/action-package-debian-ros/releases).
 
+### Docker Releases
+
+The docker image is available for quick download from Cloudsmith.  It is deployed with new releases and may be used per the Development instructions below. 
+
 
 ## Tests & Specs
 
 Tests are run by the [Actions](https://github.com/AutoModality/action-package-debian-ros/actions) and demonstrate the features provided. 
 
 ## Development
+
+Build locally like github actions so you can debug build errors in the most accurate way.
+
+### AMROS CLI
+
+Use the amros cli to run locally builds like github:
+
+```
+amros dev build docker run
+```
+
+At the prompt:
+
+```
+/release-build.sh
+```
+
+The build should look very similar to the output from Github Actions.
+
+```
+Building with only releases
+No access to Cloudsmith Dev Repository.  Entitlement not provided.
+Hit:1 http://packages.ros.org/ros/ubuntu bionic InRelease
+Get:2 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+Hit:3 http://archive.ubuntu.com/ubuntu bionic InRelease 
+Get:4 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
+```
+
+### Build the Docker Locally
+
+Most should use the AMROS CLI described previously. The insructions are here for manual applications.
 
 You will need to build packages in your local development environment.
 
