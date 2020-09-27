@@ -28,7 +28,7 @@ name: Package Example
 on: push
 jobs:
   package:
-    runs-on: ubuntu-16.04
+    runs-on: [x64, self-hosted,linux,build]
     name: Example of creating a debian package
     steps:
       - uses: actions/checkout@v2
