@@ -103,7 +103,7 @@ artifact_gen_path="../$artifact_filename"
 artifact_share_path="$staging_dir/$artifact_filename"
 
 if [[ -f "$artifact_gen_path" ]];then   
-    mv "$artifact_gen_path" "$artifact_share_path"
+    cp "$artifact_gen_path" "$artifact_share_path"
 else
     echo "Failed to generate debian binary"
     exit -1
