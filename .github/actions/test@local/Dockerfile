@@ -1,4 +1,4 @@
-FROM docker.cloudsmith.io/automodality/release/amros-melodic:latest
+FROM ros:melodic
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
