@@ -14,5 +14,8 @@ branch=${4:-$NONE}
 # authenticate as sudo to allow installation without prompt
 # requires password = username
 echo amros | sudo -S whoami
+echo authenticated sudo
+sudo whoami
+echo see it works
 # amros install -y
 /package.sh "$version" "$build_number" "$pull_request_number" "$branch"
