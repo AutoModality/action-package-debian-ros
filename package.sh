@@ -100,8 +100,9 @@ artifact_filename=$(ls .. | grep .deb | tail -1) #the package is generated in ba
 
 # share with other actions in github
 artifact_path="$staging_dir/$artifact_filename"
+mv ../$artifact_filename $artifact_path
+
 if [[ -f "$artifact_filename" ]];then   
-    mv ../$artifact_filename $artifact_path
 else
     echo "Failed to generate debian binary"
 fi
