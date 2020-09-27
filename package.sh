@@ -97,26 +97,28 @@ echo amros | sudo -S whoami
 sudo debian/rules binary #performs the package
 
 artifact_filename=$(ls .. | grep .deb | tail -1) #the package is generated in base directory
+artifact_gen_path="../$artifact_filename"
 
 # share with other actions in github
-artifact_path="$staging_dir/$artifact_filename"
-mv ../$artifact_filename $artifact_path
+artifact_share_path="$staging_dir/$artifact_filename"
 
-if [[ -f "$artifact_filename" ]];then   
+if [[ -f "$artifact_gen_path" ]];then   
+    mv "$artifact_gen_path" "$artifact_share_path"
 else
     echo "Failed to generate debian binary"
+    exit -1
 fi
 
 #show the details of the file FYI and to validate existence
 echo package file info -----------------------
-ls -lh $artifact_path
+ls -lh "$artifact_share_path"
 
 echo package info  -----------------------
-dpkg --info $artifact_path
+dpkg --info "$artifact_share_path"
 
 echo package contents -----------------------
-dpkg --contents $artifact_path
+dpkg --contents "$artifact_share_path"
 
 
-echo ::set-output name=artifact-path::$artifact_path  #reference available to other actions
+echo ::set-output name=artifact-path::"$artifact_share_path"  #reference available to other actions
 echo ::set-output name=version::$version  #reference available to other actions
