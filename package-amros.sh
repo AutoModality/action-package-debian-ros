@@ -15,4 +15,4 @@ branch=${4:-$NONE}
 # requires password = username
 whoami | sudo -S whoami
 amros install
-package.sh "$version" "$build_number" "$pull_request_number" "$branch"
+/package.sh "$version" "$build_number" "$pull_request_number" "$branch"
