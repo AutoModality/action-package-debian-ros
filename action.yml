@@ -35,7 +35,7 @@ outputs:
 
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'Dockerfile-amros'
   args: # see entrypoint.sh for the recipient of these - order matters
     - ${{ inputs.version }}
     - ${{ inputs.build-number }}

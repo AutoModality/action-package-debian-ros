@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Makes and Creates a debian package
+# Creates a debian package using catkin build
 # This script works in a local docker container or with it's Github action.yml
-# ./build directory is cleaned every time
+# Script expects an environment prepared by either package-prep.sh or amros container
 # the version generated is only for development builds currently
 
 #see action.yml for inputs
@@ -13,8 +13,6 @@ version=${1:-$NONE} # the version of the generated package
 build_number=${2:-$NONE}
 pull_request_number=${3:-$NONE}
 branch=${4:-$NONE}
-cloudsmith_read_dev_entitlement=${5:-${CLOUDSMITH_READ_DEV_ENTITLEMENT:-$NONE}}
-cloudsmith_read_release_entitlement=${6:-${CLOUDSMITH_READ_RELEASE_ENTITLEMENT:-$NONE}}
 
 
 # extract the package name from the control file
@@ -33,38 +31,6 @@ append_branch_version(){
 #provides a timestamp as unique number to ensure version will be unique
 append_timestamp(){
     echo ".$(date +%Y%m%d%H%M%S )"
-}
-
-# cloudsmith package repository needs to be included for dependency downloads
-# it is private and requires access key provided as a parameter
-authorize_dev_package_repo(){
-
-    if [[ $cloudsmith_read_dev_entitlement != $NONE ]]; then
-        echo "Entitlement provided to access Cloudsmith Dev Repository.  You should see OK messages."
-
-        curl -u "token:$cloudsmith_read_dev_entitlement" -1sLf \
-        'https://dl.cloudsmith.io/basic/automodality/dev/cfg/setup/bash.deb.sh' \
-        | sudo bash
-    else
-        echo "No access to Cloudsmith Dev Repository.  Entitlement not provided."
-    fi
-  # new repository comes new package directory
-  apt-get -y update
-}
-
-# release repository is available to all 
-authorize_release_package_repo(){
-
-    if [[ $cloudsmith_read_release_entitlement != $NONE ]]; then
-        echo "Entitlement provided to access Cloudsmith Release Repository.  You should see OK messages."
-        curl -u "token:$cloudsmith_read_release_entitlement" -1sLf \
-        'https://dl.cloudsmith.io/basic/automodality/release/cfg/setup/bash.deb.sh' \
-        | sudo bash
-    else
-        echo "No access to Cloudsmith Release Repository.  Entitlement not provided."
-    fi
-  # new repository comes new package directory
-  apt-get -y update
 }
 
 # uses or makes version based on caascading set of rules based on what is provided
@@ -127,13 +93,6 @@ package_name=$(package_name_from_control)
 version=$(version_guaranteed)
 control_version_line="$package_name ($version) unstable; urgency=medium"
 echo $control_version_line > $DEBIAN_DIR/changelog
-
-authorize_dev_package_repo
-authorize_release_package_repo
-
-
-#gets dependencies and packages them for 
-mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
 
 debian/rules binary #performs the package
 
