@@ -94,13 +94,17 @@ version=$(version_guaranteed)
 control_version_line="$package_name ($version) unstable; urgency=medium"
 echo $control_version_line > $DEBIAN_DIR/changelog
 
-fakeroot debian/rules binary #performs the package
+sudo debian/rules binary #performs the package
 
 artifact_filename=$(ls .. | grep .deb | tail -1) #the package is generated in base directory
 
 # share with other actions in github
 artifact_path="$staging_dir/$artifact_filename"
-mv ../$artifact_filename $artifact_path
+if [[ -f "$artifact_filename" ]];then   
+    mv ../$artifact_filename $artifact_path
+else
+    echo "Failed to generate debian binary"
+fi
 
 #show the details of the file FYI and to validate existence
 echo package file info -----------------------
