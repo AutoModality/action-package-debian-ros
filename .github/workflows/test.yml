@@ -5,6 +5,7 @@ jobs:
     runs-on: [x64, self-hosted,linux,build]
     name: Default version uses timestamps and package can be installed
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -23,6 +24,7 @@ jobs:
     runs-on: [x64, self-hosted,linux,build]
     name: Package uses version provided
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -45,6 +47,7 @@ jobs:
     runs-on: [x64, self-hosted,linux,build]
     name: Pull request number alone is used
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -65,6 +68,7 @@ jobs:
     runs-on: [x64, self-hosted,linux,build]
     name: Build number only is used
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -85,6 +89,7 @@ jobs:
     runs-on: [x64, self-hosted,linux,build]
     name: Underscores in branches should be escaped
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -105,6 +110,7 @@ jobs:
     runs-on: [x64, self-hosted,linux,build]
     name: Branch only uses timestamp with branch
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -125,6 +131,7 @@ jobs:
     runs-on: [x64, self-hosted,linux,build]
     name: Pull request, branch and build number all used
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -147,6 +154,7 @@ jobs:
     runs-on: [x64, self-hosted,linux,build]
     name: Path branch like feature/XX-13 is escaped
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -178,6 +186,7 @@ jobs:
       - version
       - default-version
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Semantic Release
         id: semantic
