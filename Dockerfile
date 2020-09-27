@@ -1,4 +1,4 @@
-FROM ros:melodic
+FROM docker.cloudsmith.io/automodality/release/amros-melodic:latest
 
 ENV DEBIAN_FRONTEND noninteractive
 
