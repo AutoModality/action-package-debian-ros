@@ -1,13 +1,10 @@
 #!/usr/bin/make -f
 export DH_VERBOSE = 1
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+dir=debian/debian-package-test-action/usr/share/
 
 %:
 	dh $@  
 
-override_dh_auto_build:
-	echo "hello world"
-
 override_dh_builddeb:
-	echo "Build deb"
 	dh_builddeb --destdir=.
