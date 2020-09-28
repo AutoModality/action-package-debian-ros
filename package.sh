@@ -99,6 +99,8 @@ fakeroot debian/rules binary #performs the package
 artifact_filename=$(ls .. | grep .deb | tail -1) #the package is generated in base directory
 artifact_gen_path="./$artifact_filename"
 
+echo "found generated $artifact_gen_path"
+
 # share with other actions in github
 artifact_share_path="$staging_dir/$artifact_filename"
 
