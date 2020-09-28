@@ -15,7 +15,7 @@ branch=${4:-$NONE}
 # requires password = username
 echo amros | sudo -S whoami
 echo authenticated sudo
-sudo whoami
+sudo chmod 777 ..
 echo see it works
 # amros install -y
 /package.sh "$version" "$build_number" "$pull_request_number" "$branch"

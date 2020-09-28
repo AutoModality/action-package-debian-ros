@@ -17,7 +17,7 @@ RUN apt-get -y install \
         javahelper=0.72.1~18.04.1
         
 # Copies your code file from your action repository to the filesystem path `/` of the container
-COPY package-prep.sh /package-prep.sh
+COPY package-ros.sh /package-ros.sh
 COPY package.sh /package.sh
 COPY release-build.sh /release-build.sh
 COPY story-build.sh /story-build.sh

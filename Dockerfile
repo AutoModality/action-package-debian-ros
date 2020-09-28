@@ -1,1 +1,1 @@
-Dockerfile-amros
+docker/amros/Dockerfile
