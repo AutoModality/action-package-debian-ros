@@ -44,7 +44,11 @@ jobs:
           echo "Expected ${{ steps.package.outputs.version }} to be 0.0.13 "
           exit 1
   cached-build:
-    runs-on: [[x64, self-hosted,linux,build], [arm64,self-hosted,linux, build]]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [[x64, self-hosted,linux,build], [arm64,self-hosted,linux, build]]
+      fail-fast: false
     name: Package uses version provided
     steps:
       - uses: AutoModality/action-clean@v1.1.0
