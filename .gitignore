@@ -17,3 +17,5 @@ debian/.debhelper
 debian/debian-package-test-action/
 debian-package-test-action-build-*
 .history
+obj-x86_64-linux-gnu/app
+*.deb

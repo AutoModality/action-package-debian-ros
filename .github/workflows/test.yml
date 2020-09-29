@@ -2,9 +2,10 @@ name: Release
 on: push
 jobs:
   default-version:
-    runs-on: ubuntu-18.04
+    runs-on: [x64, self-hosted,linux,build]
     name: Default version uses timestamps and package can be installed
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -20,9 +21,10 @@ jobs:
           package-file: ${{ steps.package.outputs.artifact-path }}
           package-version: ${{ steps.package.outputs.version }}      
   version:
-    runs-on: ubuntu-16.04
+    runs-on: [x64, self-hosted,linux,build]
     name: Package uses version provided
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -41,10 +43,46 @@ jobs:
         run: |
           echo "Expected ${{ steps.package.outputs.version }} to be 0.0.13 "
           exit 1
+  cached-build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [[x64, self-hosted,linux,build], [arm64,self-hosted,linux, build]]
+      fail-fast: false
+    name: Cache used still passes version test
+    steps:
+      - uses: AutoModality/action-clean@v1.1.0
+      - uses: actions/checkout@v1
+      - name: Restore Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            obj-*-gnu
+          # different caches for different architectures and control files
+          # first element in matrix.os is the architecture, by convention
+          key: ${{ matrix.os[0] }}-${{ hashFiles('debian/control') }}
+      - name: Package
+        id: package
+        uses: ./  #use the current project relative to root
+        with:
+          version: 0.0.13
+      - name: The generated package
+        run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
+      - name: Confirm package name uses version
+        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_0.0.13') != true
+        run: |
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 0.0.13 "
+          exit 1
+      - name: Confirm the version is output
+        if: steps.package.outputs.version != '0.0.13'
+        run: |
+          echo "Expected ${{ steps.package.outputs.version }} to be 0.0.13 "
+          exit 1
   pull-request-number:
-    runs-on: ubuntu-16.04
+    runs-on: [x64, self-hosted,linux,build]
     name: Pull request number alone is used
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -62,9 +100,10 @@ jobs:
           echo "Expected ${{ steps.package.outputs.version }} to be 13 "
           exit 1
   build-number:
-    runs-on: ubuntu-16.04
+    runs-on: [x64, self-hosted,linux,build]
     name: Build number only is used
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -82,9 +121,10 @@ jobs:
           echo "Expected ${{ steps.package.outputs.version }} to be 13 "
           exit 1
   branch-underscore:
-    runs-on: ubuntu-16.04
+    runs-on: [x64, self-hosted,linux,build]
     name: Underscores in branches should be escaped
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -102,9 +142,10 @@ jobs:
           echo "Expected ${{ steps.package.outputs.version }} to be branch-with-underscore "
           exit 1
   branch:
-    runs-on: ubuntu-16.04
+    runs-on: [x64, self-hosted,linux,build]
     name: Branch only uses timestamp with branch
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -122,9 +163,10 @@ jobs:
           echo "Expected ${{ steps.package.outputs.version }} to be XX-13 "
           exit 1
   pr-branch-build:
-    runs-on: ubuntu-16.04
+    runs-on: [x64, self-hosted,linux,build]
     name: Pull request, branch and build number all used
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -144,9 +186,10 @@ jobs:
           echo "Expected ${{ steps.package.outputs.version }} to be 7.XX-13.8"
           exit 1 
   branch-with-path:
-    runs-on: ubuntu-16.04
+    runs-on: [x64, self-hosted,linux,build]
     name: Path branch like feature/XX-13 is escaped
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Package
         id: package
@@ -166,7 +209,7 @@ jobs:
           echo "Expected ${{ steps.package.outputs.version}} to be 7.feature-XX-13.8"
           exit 1 
   release:
-    runs-on: ubuntu-16.04
+    runs-on: [x64, self-hosted,linux,build]
     name: Release if all tests pass on master branch
     needs:
       - branch-with-path
@@ -178,6 +221,7 @@ jobs:
       - version
       - default-version
     steps:
+      - uses: AutoModality/action-clean@v1.1.0
       - uses: actions/checkout@v1
       - name: Semantic Release
         id: semantic

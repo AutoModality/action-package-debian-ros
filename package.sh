@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Makes and Creates a debian package
+# Creates a debian package using catkin build
 # This script works in a local docker container or with it's Github action.yml
-# ./build directory is cleaned every time
+# Script expects an environment prepared by either package-ros.sh or package-amros.sh container
 # the version generated is only for development builds currently
 
 #see action.yml for inputs
@@ -13,8 +13,6 @@ version=${1:-$NONE} # the version of the generated package
 build_number=${2:-$NONE}
 pull_request_number=${3:-$NONE}
 branch=${4:-$NONE}
-cloudsmith_read_dev_entitlement=${5:-${CLOUDSMITH_READ_DEV_ENTITLEMENT:-$NONE}}
-cloudsmith_read_release_entitlement=${6:-${CLOUDSMITH_READ_RELEASE_ENTITLEMENT:-$NONE}}
 
 
 # extract the package name from the control file
@@ -33,38 +31,6 @@ append_branch_version(){
 #provides a timestamp as unique number to ensure version will be unique
 append_timestamp(){
     echo ".$(date +%Y%m%d%H%M%S )"
-}
-
-# cloudsmith package repository needs to be included for dependency downloads
-# it is private and requires access key provided as a parameter
-authorize_dev_package_repo(){
-
-    if [[ $cloudsmith_read_dev_entitlement != $NONE ]]; then
-        echo "Entitlement provided to access Cloudsmith Dev Repository.  You should see OK messages."
-
-        curl -u "token:$cloudsmith_read_dev_entitlement" -1sLf \
-        'https://dl.cloudsmith.io/basic/automodality/dev/cfg/setup/bash.deb.sh' \
-        | sudo bash
-    else
-        echo "No access to Cloudsmith Dev Repository.  Entitlement not provided."
-    fi
-  # new repository comes new package directory
-  apt-get -y update
-}
-
-# release repository is available to all 
-authorize_release_package_repo(){
-
-    if [[ $cloudsmith_read_release_entitlement != $NONE ]]; then
-        echo "Entitlement provided to access Cloudsmith Release Repository.  You should see OK messages."
-        curl -u "token:$cloudsmith_read_release_entitlement" -1sLf \
-        'https://dl.cloudsmith.io/basic/automodality/release/cfg/setup/bash.deb.sh' \
-        | sudo bash
-    else
-        echo "No access to Cloudsmith Release Repository.  Entitlement not provided."
-    fi
-  # new repository comes new package directory
-  apt-get -y update
 }
 
 # uses or makes version based on caascading set of rules based on what is provided
@@ -102,6 +68,17 @@ version_guaranteed(){
     
     echo $v
 }
+
+log(){
+    message=$1
+    echo
+    echo "============================================="
+    date --iso-8601=s
+    echo $message
+    echo "============================================="
+    echo
+}
+
 # ========= MAIN
 
 set -e # fail on error
@@ -122,37 +99,50 @@ if [[ ! -d "$DEBIAN_DIR" ]]; then
     exit 1
 fi
 
+echo amros | sudo -S echo authenticated as root
+
+log "installing dependencies from control file"
+
+#gets dependencies and packages them for 
+sudo mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
+
+
 package_name=$(package_name_from_control)
 #TODO: get release notes from github and add them to the changelog
 version=$(version_guaranteed)
 control_version_line="$package_name ($version) unstable; urgency=medium"
 echo $control_version_line > $DEBIAN_DIR/changelog
 
-authorize_dev_package_repo
-authorize_release_package_repo
+log "building and packaging"
 
+sudo debian/rules binary #performs the package
 
-#gets dependencies and packages them for 
-mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
+gen_dir="."
+artifact_filename=$(ls $gen_dir | grep .deb | tail -1) #the package is generated in base directory
+artifact_gen_path="$gen_dir/$artifact_filename"
 
-debian/rules binary #performs the package
-
-artifact_filename=$(ls .. | grep .deb | tail -1) #the package is generated in base directory
+log "staging package for sharing"
 
 # share with other actions in github
-artifact_path="$staging_dir/$artifact_filename"
-mv ../$artifact_filename $artifact_path
+artifact_share_path="$staging_dir/$artifact_filename"
+
+if [[ -f "$artifact_gen_path" ]];then   
+    cp "$artifact_gen_path" "$artifact_share_path"
+else
+    echo "Failed to generate debian binary"
+    exit -1
+fi
 
 #show the details of the file FYI and to validate existence
 echo package file info -----------------------
-ls -lh $artifact_path
+ls -lh "$artifact_share_path"
 
 echo package info  -----------------------
-dpkg --info $artifact_path
+dpkg --info "$artifact_share_path"
 
 echo package contents -----------------------
-dpkg --contents $artifact_path
+dpkg --contents "$artifact_share_path"
 
 
-echo ::set-output name=artifact-path::$artifact_path  #reference available to other actions
+echo ::set-output name=artifact-path::"$artifact_share_path"  #reference available to other actions
 echo ::set-output name=version::$version  #reference available to other actions
