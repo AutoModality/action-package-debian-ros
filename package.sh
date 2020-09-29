@@ -71,8 +71,12 @@ version_guaranteed(){
 
 log(){
     message=$1
-    date --iso-8601=ns
+    echo
+    echo "============================================="
+    date --iso-8601=s
     echo $message
+    echo "============================================="
+    echo
 }
 
 # ========= MAIN
