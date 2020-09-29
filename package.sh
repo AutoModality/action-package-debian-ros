@@ -94,7 +94,7 @@ version=$(version_guaranteed)
 control_version_line="$package_name ($version) unstable; urgency=medium"
 echo $control_version_line > $DEBIAN_DIR/changelog
 echo amros | sudo -S whoami
-fakeroot debian/rules binary #performs the package
+sudo debian/rules binary #performs the package
 
 gen_dir="."
 artifact_filename=$(ls $gen_dir | grep .deb | tail -1) #the package is generated in base directory
