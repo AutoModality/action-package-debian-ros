@@ -18,5 +18,5 @@ echo amros | sudo -S whoami
 echo authenticated sudo
 sudo chmod 777 ..
 echo see it works
-# amros install -y
+amros install -y
 /package.sh "$version" "$build_number" "$pull_request_number" "$branch"
