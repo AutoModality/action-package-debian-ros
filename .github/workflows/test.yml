@@ -57,10 +57,10 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            obj-x86_64-linux-gnu
+            obj-*-gnu
           # see https://developer.github.com/v3/actions/self-hosted-runners/
           # runner.architecture doesn't work
-          key: ${{ runner.os }}-${{ runner.architecture }}-${{ hashFiles('debian/control') }}
+          key: ${{ matrix.os }}-${{ hashFiles('debian/control') }}
       - name: Package
         id: package
         uses: ./  #use the current project relative to root
