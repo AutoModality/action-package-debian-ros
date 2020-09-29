@@ -5,3 +5,9 @@ dir=debian/debian-package-test-action/usr/share/
 
 %:
 	dh $@  
+
+override_dh_builddeb:
+	# generate deb package in current directory
+	# am_super, for one, has issue with cross-link error 
+	# since parent is in docker and current dir is on host
+	dh_builddeb --destdir=.
