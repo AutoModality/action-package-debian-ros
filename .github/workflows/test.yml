@@ -43,6 +43,35 @@ jobs:
         run: |
           echo "Expected ${{ steps.package.outputs.version }} to be 0.0.13 "
           exit 1
+  cached-build:
+    runs-on: [[x64, self-hosted,linux,build], [arm64,self-hosted,linux, build]]
+    name: Package uses version provided
+    steps:
+      - uses: AutoModality/action-clean@v1.1.0
+      - uses: actions/checkout@v1
+      - name: Restore Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            obj-x86_64-linux-gnu
+          key: ${{ runner.os }}-${{ hashFiles('debian/control') }}
+      - name: Package
+        id: package
+        uses: ./  #use the current project relative to root
+        with:
+          version: 0.0.13
+      - name: The generated package
+        run: echo "The artifact is ${{ steps.package.outputs.artifact-path }}"
+      - name: Confirm package name uses version
+        if: contains(steps.package.outputs.artifact-path, 'debian-package-test-action_0.0.13_amd64.deb') != true
+        run: |
+          echo "Expected ${{ steps.package.outputs.artifact-path }} to contain 0.0.13 "
+          exit 1
+      - name: Confirm the version is output
+        if: steps.package.outputs.version != '0.0.13'
+        run: |
+          echo "Expected ${{ steps.package.outputs.version }} to be 0.0.13 "
+          exit 1
   pull-request-number:
     runs-on: [x64, self-hosted,linux,build]
     name: Pull request number alone is used
