@@ -1,7 +1,6 @@
 #!/usr/bin/make -f
 export DH_VERBOSE = 1
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
-dir=debian/debian-package-test-action/usr/share/
 
 %:
 	dh $@  
@@ -11,3 +10,9 @@ override_dh_builddeb:
 	# am_super, for one, has issue with cross-link error 
 	# since parent is in docker and current dir is on host
 	dh_builddeb --destdir=.
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf build devel logs install
+	rm -f *.deb
+	rm -rf catkin_ws
