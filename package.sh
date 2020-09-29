@@ -2,7 +2,7 @@
 
 # Creates a debian package using catkin build
 # This script works in a local docker container or with it's Github action.yml
-# Script expects an environment prepared by either package-prep.sh or amros container
+# Script expects an environment prepared by either package-ros.sh or package-amros.sh container
 # the version generated is only for development builds currently
 
 #see action.yml for inputs
