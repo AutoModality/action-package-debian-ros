@@ -59,6 +59,7 @@ jobs:
           path: |
             obj-x86_64-linux-gnu
           # see https://developer.github.com/v3/actions/self-hosted-runners/
+          # runner.architecture doesn't work
           key: ${{ runner.os }}-${{ runner.architecture }}-${{ hashFiles('debian/control') }}
       - name: Package
         id: package
