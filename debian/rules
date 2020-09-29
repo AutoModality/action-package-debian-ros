@@ -5,6 +5,3 @@ dir=debian/debian-package-test-action/usr/share/
 
 %:
 	dh $@  
-
-override_dh_builddeb:
-	dh_builddeb --destdir=.

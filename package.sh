@@ -100,7 +100,7 @@ echo $control_version_line > $DEBIAN_DIR/changelog
 
 echo amros | sudo -S whoami && sudo debian/rules binary #performs the package
 
-gen_dir="."
+gen_dir=".."
 artifact_filename=$(ls $gen_dir | grep .deb | tail -1) #the package is generated in base directory
 artifact_gen_path="$gen_dir/$artifact_filename"
 
