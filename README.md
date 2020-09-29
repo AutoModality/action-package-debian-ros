@@ -13,7 +13,8 @@ See also [Wiki Docs](https://automodality.atlassian.net/wiki/spaces/AMROS/pages/
 ---
 
 ## Features
-* Built from ros:melodic base Docker image
+* Build from ros:melodic base Docker image for high integrity slow builds
+* Build from amros-melodic base Docker image for fast builds with pretty good integrity 
 * Generates a debian package available for subsequent actions to access (presumably install or deploy)
 * Generates changelog based on the version provided
 * Version can be provided directly
@@ -49,6 +50,48 @@ See [action.yml](action.yml) for more options.
 ## Releases
 
 Uses Semantic Release to publish [releases](https://github.com/AutoModality/action-package-debian-ros/releases).
+
+### ROS or AMROS Releases
+
+Although a bit confusing, this repository comes in two flavors:
+
+* ROS - slow with high integrity
+* AMROS - fast with medium integrity
+
+The AMROS build is packaged with all the necessary packages saving time installing dependencies. Otherwise, they are fairly similar since AMROS docker is based on ros:melodic.
+
+The Dockerfile points to either `docker/ros/Dockerfile` or `docker/amros/Dockerfile` providing the flavor.
+```
+ls -l Dockerfile
+```
+shows the linked file
+```
+lrwxrwxrwx 1 amros amros   23 Sep 28 17:38 Dockerfile -> docker/amros/Dockerfile
+```
+
+If improvements must be made to the other flavor than is currently set, you can simply link it to the other file:
+
+```
+ln -sf docker/amros/Dockerfile Dockerfile
+```
+
+When you make the commit, you must make it a breaking change so the major version increments the other flavor.
+
+```
+feat: switching base to AMROS
+BREAKING CHANGE: no longer based on the ROS docker
+```
+
+The tags should identify which base is being used:
+
+```
+v5-amros
+```
+Such a tag moves to the latest stable release so we do not need to update to the latest.  
+
+The v5 prefix does not necessary match the 5.x.x version of the tag.  Only increment the v numbers is there is a breaking change for a particular flavor.
+
+
 
 ### Docker Releases
 
