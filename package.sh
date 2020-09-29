@@ -68,6 +68,13 @@ version_guaranteed(){
     
     echo $v
 }
+
+log(){
+    message=$1
+    date --iso-8601=ns
+    echo $message
+}
+
 # ========= MAIN
 
 set -e # fail on error
@@ -90,8 +97,11 @@ fi
 
 echo amros | sudo -S echo authenticated as root
 
+log "installing dependencies from control file"
+
 #gets dependencies and packages them for 
 sudo mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
+
 
 package_name=$(package_name_from_control)
 #TODO: get release notes from github and add them to the changelog
@@ -99,11 +109,15 @@ version=$(version_guaranteed)
 control_version_line="$package_name ($version) unstable; urgency=medium"
 echo $control_version_line > $DEBIAN_DIR/changelog
 
+log "building and packaging"
+
 sudo debian/rules binary #performs the package
 
 gen_dir="."
 artifact_filename=$(ls $gen_dir | grep .deb | tail -1) #the package is generated in base directory
 artifact_gen_path="$gen_dir/$artifact_filename"
+
+log "staging package for sharing"
 
 # share with other actions in github
 artifact_share_path="$staging_dir/$artifact_filename"
