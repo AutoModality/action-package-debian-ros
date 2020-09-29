@@ -60,7 +60,7 @@ jobs:
             obj-*-gnu
           # see https://developer.github.com/v3/actions/self-hosted-runners/
           # runner.architecture doesn't work
-          key: ${{ matrix.os }}-${{ hashFiles('debian/control') }}
+          key: ${{ matrix.os[0] }}-${{ hashFiles('debian/control') }}
       - name: Package
         id: package
         uses: ./  #use the current project relative to root
