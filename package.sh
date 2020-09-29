@@ -88,13 +88,17 @@ if [[ ! -d "$DEBIAN_DIR" ]]; then
     exit 1
 fi
 
+
+#gets dependencies and packages them for 
+mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
+
 package_name=$(package_name_from_control)
 #TODO: get release notes from github and add them to the changelog
 version=$(version_guaranteed)
 control_version_line="$package_name ($version) unstable; urgency=medium"
 echo $control_version_line > $DEBIAN_DIR/changelog
-echo amros | sudo -S whoami
-sudo debian/rules binary #performs the package
+
+echo amros | sudo -S whoami && sudo debian/rules binary #performs the package
 
 gen_dir="."
 artifact_filename=$(ls $gen_dir | grep .deb | tail -1) #the package is generated in base directory
