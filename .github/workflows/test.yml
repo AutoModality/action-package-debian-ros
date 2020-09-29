@@ -58,8 +58,8 @@ jobs:
         with:
           path: |
             obj-*-gnu
-          # see https://developer.github.com/v3/actions/self-hosted-runners/
-          # runner.architecture doesn't work
+          # different caches for different architectures and control files
+          # first element in matrix.os is the architecture, by convention
           key: ${{ matrix.os[0] }}-${{ hashFiles('debian/control') }}
       - name: Package
         id: package
