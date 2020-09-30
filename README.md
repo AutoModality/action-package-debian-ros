@@ -90,7 +90,7 @@ Such a tag moves to the latest stable release so we do not need to update to the
 
 ```
 git tag -f v5-amros
-git push origin v5-amros
+git push -f origin v5-amros
 ```
 
 ### Docker Releases
