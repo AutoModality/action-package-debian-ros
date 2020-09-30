@@ -75,11 +75,10 @@ If improvements must be made to the other flavor than is currently set, you can 
 ln -sf docker/amros/Dockerfile Dockerfile
 ```
 
-When you make the commit, you must make it a breaking change so the major version increments the other flavor.
+When you make the commit, you should increment a minor release.  Although it breaks the convention since it should be a breaking change, it will help group related versions of amros and ros docker bases.
 
 ```
 feat: switching base to AMROS
-BREAKING CHANGE: no longer based on the ROS docker
 ```
 
 The tags should identify which base is being used:
@@ -88,8 +87,6 @@ The tags should identify which base is being used:
 v5-amros
 ```
 Such a tag moves to the latest stable release so we do not need to update to the latest.  
-
-The v5 prefix does not necessary match the 5.x.x version of the tag.  Only increment the v numbers is there is a breaking change for a particular flavor.
 
 
 

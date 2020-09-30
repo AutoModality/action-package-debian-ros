@@ -2,7 +2,7 @@ FROM ros:melodic
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ARG CACHE_BUSTER="v4.0.0"
+ARG CACHE_BUSTER="v5.0.0"
 # Bring up to date https://automodality.atlassian.net/wiki/spaces/AUTOMOD/pages/491579/Ubuntu+Setup#UbuntuSetup-BringUpToDate
 RUN apt-get -y update 
 
