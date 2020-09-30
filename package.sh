@@ -119,6 +119,13 @@ sudo debian/rules binary #performs the package
 
 gen_dir="."
 artifact_filename=$(ls $gen_dir | grep .deb | tail -1) #the package is generated in base directory
+
+# build debian artifacts may be generated and misreport success
+if [[ $artifact_filename == *"build-deps"* ]]; then
+  echo "Failed to generate package. Only $artifact_filename was found."
+  exit -2
+fi
+
 artifact_gen_path="$gen_dir/$artifact_filename"
 
 log "staging package for sharing"

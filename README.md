@@ -88,7 +88,10 @@ v5-amros
 ```
 Such a tag moves to the latest stable release so we do not need to update to the latest.  
 
-
+```
+git tag -f v5-amros
+git push origin v5-amros
+```
 
 ### Docker Releases
 
