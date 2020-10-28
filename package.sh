@@ -88,8 +88,7 @@ cd $workspace
 
 
 if [[ ! -d "$DEBIAN_DIR" ]]; then
-    echo "$DEBIAN_DIR must exist with rules (executable), "
-    exit 1
+    echo "$DEBIAN_DIR does not exist ... will attempt to generate "
 fi
 
 echo amros | sudo -S echo authenticated as root
