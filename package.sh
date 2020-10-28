@@ -91,7 +91,8 @@ if [[ ! -d "$DEBIAN_DIR" ]]; then
     log "$DEBIAN_DIR does not exist ... will attempt to generate "
 fi
 
-log "installing dependencies from control file"
+log "Temporarily install cli release candidate....remove this"
+echo amros | sudo -S whoami && sudo apt install -y python3-amros-cli
 
 
 version=$(version_guaranteed)
