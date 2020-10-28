@@ -15,13 +15,6 @@ pull_request_number=${3:-$NONE}
 branch=${4:-$NONE}
 
 
-# extract the package name from the control file
-package_name_from_control(){
-    #get the project name from the control file
-    package_line=$(cat debian/control | grep Package:)
-    echo "$package_line" | awk -F': ' '{print $2}'
-}
-
 # replaces / with - so feature/BB-182 = feature-BB-182 for version compatibility
 append_branch_version(){
     if [[ $branch != $NONE ]]; then
@@ -103,19 +96,9 @@ echo amros | sudo -S echo authenticated as root
 
 log "installing dependencies from control file"
 
-#gets dependencies and packages them for 
-sudo mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
 
-
-package_name=$(package_name_from_control)
-#TODO: get release notes from github and add them to the changelog
 version=$(version_guaranteed)
-control_version_line="$package_name ($version) unstable; urgency=medium"
-echo $control_version_line > $DEBIAN_DIR/changelog
-
-log "building and packaging"
-
-sudo debian/rules binary #performs the package
+sudo amros dev build deb --clean --version "$version" #performs the package
 
 gen_dir="."
 artifact_filename=$(ls $gen_dir | grep .deb | tail -1) #the package is generated in base directory
