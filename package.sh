@@ -94,7 +94,6 @@ fi
 log "Temporarily install cli release candidate....remove this"
 echo amros | sudo -S whoami && sudo apt install -y python3-amros-cli
 
-
 version=$(version_guaranteed)
 echo amros | sudo -S whoami && amros dev build deb --clean --version "$version" #performs the package
 
