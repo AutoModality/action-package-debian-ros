@@ -88,7 +88,7 @@ cd $workspace
 
 
 if [[ ! -d "$DEBIAN_DIR" ]]; then
-    echo "$DEBIAN_DIR does not exist ... will attempt to generate "
+    log "$DEBIAN_DIR does not exist ... will attempt to generate "
 fi
 
 echo amros | sudo -S echo authenticated as root
@@ -97,7 +97,7 @@ log "installing dependencies from control file"
 
 
 version=$(version_guaranteed)
-sudo amros dev build deb --clean --version "$version" #performs the package
+echo amros | sudo -S amros dev build deb --clean --version "$version" #performs the package
 
 gen_dir="."
 artifact_filename=$(ls $gen_dir | grep .deb | tail -1) #the package is generated in base directory
