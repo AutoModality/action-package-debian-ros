@@ -1,0 +1,8 @@
+<package format="2">
+  <name>action_package_debian_ros</name>
+  <version>2020.10.31230709</version>
+  <description>Sample package used for validating Github Action</description>
+  <maintainer email="dev@automodality.com">AutoModality</maintainer>
+  <license>Proprietary</license>
+  <buildtool_depend>catkin</buildtool_depend>
+</package>

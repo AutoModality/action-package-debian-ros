@@ -101,7 +101,8 @@ disable_command_option=""
 if [[ "$disable_command" != "$NONE" ]];then
     disable_command_option = " --disable=$disable_command"
 fi
-echo amros | sudo -S whoami && amros dev build deb --clean --version "$version" ${disable_command_option} #performs the package
+
+echo amros | sudo -S whoami && amros dev build deb --clean --version="$version" ${disable_command_option} #performs the package
 
 gen_dir="."
 artifact_filename=$(ls $gen_dir | grep .deb | tail -1) #the package is generated in base directory
