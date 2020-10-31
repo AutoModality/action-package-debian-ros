@@ -102,6 +102,8 @@ if [[ "$disable_command" != "$NONE" ]];then
     disable_command_option = " --disable=$disable_command"
 fi
 
+rosdep update
+
 echo amros | sudo -S whoami && amros dev build deb --clean --version="$version" ${disable_command_option} #performs the package
 
 gen_dir="."
