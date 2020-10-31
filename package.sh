@@ -13,7 +13,7 @@ version=${1:-$NONE} # the version of the generated package
 build_number=${2:-$NONE}
 pull_request_number=${3:-$NONE}
 branch=${4:-$NONE}
-
+disable_command=${5:-$NONE}
 
 # replaces / with - so feature/BB-182 = feature-BB-182 for version compatibility
 append_branch_version(){
@@ -95,7 +95,13 @@ log "Temporarily install cli release candidate....remove this"
 echo amros | sudo -S whoami && sudo apt install -y python3-amros-cli
 
 version=$(version_guaranteed)
-echo amros | sudo -S whoami && amros dev build deb --clean --version "$version" #performs the package
+
+# disable debhelper override if provided
+disable_command_option=""
+if [[ "$disable_command" != "$NONE" ]];then
+    disable_command_option = " --disable=$disable_command"
+fi
+echo amros | sudo -S whoami && amros dev build deb --clean --version "$version" ${disable_command_option} #performs the package
 
 gen_dir="."
 artifact_filename=$(ls $gen_dir | grep .deb | tail -1) #the package is generated in base directory

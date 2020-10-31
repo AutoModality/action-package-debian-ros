@@ -10,8 +10,9 @@ version=${1:-$NONE} # the version of the generated package
 build_number=${2:-$NONE}
 pull_request_number=${3:-$NONE}
 branch=${4:-$NONE}
-cloudsmith_read_dev_entitlement=${5:-${CLOUDSMITH_READ_DEV_ENTITLEMENT:-$NONE}}
-cloudsmith_read_release_entitlement=${6:-${CLOUDSMITH_READ_RELEASE_ENTITLEMENT:-$NONE}}
+disable_command=${5:-$NONE}
+cloudsmith_read_dev_entitlement=${6:-${CLOUDSMITH_READ_DEV_ENTITLEMENT:-$NONE}}
+cloudsmith_read_release_entitlement=${7:-${CLOUDSMITH_READ_RELEASE_ENTITLEMENT:-$NONE}}
 
 # cloudsmith package repository needs to be included for dependency downloads
 # it is private and requires access key provided as a parameter
@@ -59,4 +60,4 @@ fi
 authorize_dev_package_repo
 authorize_release_package_repo
 
-/package.sh "$version" "$build_number" "$pull_request_number" "$branch"
+/package.sh "$version" "$build_number" "$pull_request_number" "$branch" "$disable_command"
