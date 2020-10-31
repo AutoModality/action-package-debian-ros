@@ -104,7 +104,7 @@ fi
 
 rosdep update
 
-which bloom-generate
+echo $(which bloom-generate)$?
 ls
 amros cli version
 echo amros | sudo -S whoami && amros dev build deb --clean --version="$version" ${disable_command_option} #performs the package
