@@ -102,7 +102,7 @@ if [[ "$disable_command" != "$NONE" ]];then
     disable_command_option = " --disable=$disable_command"
 fi
 
-rosdep update
+echo amros | sudo -S apt-get install -y python-bloom
 
 echo $(which bloom-generate)$?
 ls
