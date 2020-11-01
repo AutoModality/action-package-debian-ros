@@ -102,11 +102,6 @@ if [[ "$disable_command" != "$NONE" ]];then
     disable_command_option = " --disable=$disable_command"
 fi
 
-echo amros | sudo -S apt-get install -y python-bloom
-
-echo $(which bloom-generate)$?
-ls
-amros cli version
 echo amros | sudo -S whoami && amros dev build deb --clean --version="$version" ${disable_command_option} #performs the package
 
 gen_dir="."
