@@ -92,7 +92,7 @@ if [[ ! -d "$DEBIAN_DIR" ]]; then
 fi
 
 log "Temporarily install cli release candidate....remove this"
-echo amros | sudo -S whoami && sudo apt install -y python3-amros-cli
+echo amros | sudo -S whoami && sudo apt install -y python3-amros-cli python-bloom
 
 version=$(version_guaranteed)
 
