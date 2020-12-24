@@ -7,14 +7,14 @@ ARG CACHE_BUSTER="v5.0.0"
 RUN apt-get -y update 
 
 RUN apt-get -y install \
-        apt-utils=1.6.12ubuntu0.1 \
-        apt-transport-https=1.6.12ubuntu0.1 \
-        python-catkin-tools=0.6.1-1 \
-        xsdcxx=4.0.0-7build1 \ 
-        devscripts=2.17.12ubuntu1.1 \
-        equivs=2.1.0 \ 
-        debhelper=12.1.1ubuntu1~ubuntu18.04.1 \ 
-        javahelper=0.72.1~18.04.1
+        apt-utils \
+        apt-transport-https \
+        python-catkin-tools \
+        xsdcxx \ 
+        devscripts \
+        equivs \ 
+        debhelper \ 
+        javahelper
         
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY package-ros.sh /package-ros.sh
