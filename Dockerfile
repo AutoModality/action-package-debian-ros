@@ -1,1 +1,1 @@
-docker/amros/Dockerfile
+docker/ros/Dockerfile

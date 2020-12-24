@@ -8,4 +8,4 @@ COPY package.sh /package.sh
 
 
 # Code file to execute when the docker container starts up (`entrypoint.sh`)
-ENTRYPOINT ["/package-ros.sh"]
+ENTRYPOINT ["/package-amros.sh"]
