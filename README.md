@@ -74,6 +74,11 @@ If improvements must be made to the other flavor than is currently set, you can 
 ```
 ln -sf docker/amros/Dockerfile Dockerfile
 ```
+or
+
+```
+ln -sf docker/ros/Dockerfile Dockerfile
+```
 
 When you make the commit, you should increment a minor release.  Although it breaks the convention since it should be a breaking change, it will help group related versions of amros and ros docker bases.
 
