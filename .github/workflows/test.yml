@@ -2,7 +2,7 @@ name: Release
 on: push
 jobs:
   default-version:
-    runs-on: [x64, self-hosted,linux,build]
+    runs-on: ubuntu-18.04
     name: Default version uses timestamps and package can be installed
     steps:
       - uses: AutoModality/action-clean@v1.1.0
@@ -21,7 +21,7 @@ jobs:
           package-file: ${{ steps.package.outputs.artifact-path }}
           package-version: ${{ steps.package.outputs.version }}      
   version:
-    runs-on: [x64, self-hosted,linux,build]
+    runs-on: ubuntu-18.04
     name: Package uses version provided
     steps:
       - uses: AutoModality/action-clean@v1.1.0
@@ -44,11 +44,7 @@ jobs:
           echo "Expected ${{ steps.package.outputs.version }} to be 0.0.13 "
           exit 1
   cached-build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [[x64, self-hosted,linux,build], [arm64,self-hosted,linux, build]]
-      fail-fast: false
+    runs-on: ubuntu-18.04
     name: Cache used still passes version test
     steps:
       - uses: AutoModality/action-clean@v1.1.0
@@ -79,7 +75,7 @@ jobs:
           echo "Expected ${{ steps.package.outputs.version }} to be 0.0.13 "
           exit 1
   pull-request-number:
-    runs-on: [x64, self-hosted,linux,build]
+    runs-on: ubuntu-18.04
     name: Pull request number alone is used
     steps:
       - uses: AutoModality/action-clean@v1.1.0
@@ -100,7 +96,7 @@ jobs:
           echo "Expected ${{ steps.package.outputs.version }} to be 13 "
           exit 1
   build-number:
-    runs-on: [x64, self-hosted,linux,build]
+    runs-on: ubuntu-18.04
     name: Build number only is used
     steps:
       - uses: AutoModality/action-clean@v1.1.0
@@ -121,7 +117,7 @@ jobs:
           echo "Expected ${{ steps.package.outputs.version }} to be 13 "
           exit 1
   branch-underscore:
-    runs-on: [x64, self-hosted,linux,build]
+    runs-on: ubuntu-18.04
     name: Underscores in branches should be escaped
     steps:
       - uses: AutoModality/action-clean@v1.1.0
@@ -142,7 +138,7 @@ jobs:
           echo "Expected ${{ steps.package.outputs.version }} to be branch-with-underscore "
           exit 1
   branch:
-    runs-on: [x64, self-hosted,linux,build]
+    runs-on: ubuntu-18.04
     name: Branch only uses timestamp with branch
     steps:
       - uses: AutoModality/action-clean@v1.1.0
@@ -163,7 +159,7 @@ jobs:
           echo "Expected ${{ steps.package.outputs.version }} to be XX-13 "
           exit 1
   pr-branch-build:
-    runs-on: [x64, self-hosted,linux,build]
+    runs-on: ubuntu-18.04
     name: Pull request, branch and build number all used
     steps:
       - uses: AutoModality/action-clean@v1.1.0
@@ -186,7 +182,7 @@ jobs:
           echo "Expected ${{ steps.package.outputs.version }} to be 7.XX-13.8"
           exit 1 
   branch-with-path:
-    runs-on: [x64, self-hosted,linux,build]
+    runs-on: ubuntu-18.04
     name: Path branch like feature/XX-13 is escaped
     steps:
       - uses: AutoModality/action-clean@v1.1.0
@@ -209,7 +205,7 @@ jobs:
           echo "Expected ${{ steps.package.outputs.version}} to be 7.feature-XX-13.8"
           exit 1 
   release:
-    runs-on: [x64, self-hosted,linux,build]
+    runs-on: ubuntu-18.04
     name: Release if all tests pass on master branch
     needs:
       - branch-with-path
