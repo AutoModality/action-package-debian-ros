@@ -254,3 +254,4 @@ outputs:
   version:
     description: 'The version of the artifact.'
 ```
+
