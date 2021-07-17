@@ -111,7 +111,7 @@ package_name=$(package_name_from_control)
 #TODO: get release notes from github and add them to the changelog
 version=$(version_guaranteed)
 control_version_line="$package_name ($version) unstable; urgency=medium"
-echo $control_version_line > $DEBIAN_DIR/changelog
+sudo sh -c "echo $control_version_line > $DEBIAN_DIR/changelog"
 
 log "building and packaging"
 
@@ -134,7 +134,7 @@ log "staging package for sharing"
 artifact_share_path="$staging_dir/$artifact_filename"
 
 if [[ -f "$artifact_gen_path" ]];then   
-    cp "$artifact_gen_path" "$artifact_share_path"
+    sudo cp "$artifact_gen_path" "$artifact_share_path"
 else
     echo "Failed to generate debian binary"
     exit -1
