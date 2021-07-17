@@ -99,7 +99,7 @@ if [[ ! -d "$DEBIAN_DIR" ]]; then
     exit 1
 fi
 
-echo amros | sudo -S echo authenticated as root
+echo developer | sudo -S echo authenticated as root
 
 log "installing dependencies from control file"
 
